@@ -9,5 +9,5 @@ public static class Bootstrapper
     public const string INITIALIZATOR_NAME = "Systems";
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    public static void Execute() => Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load(INITIALIZATOR_NAME)));
+    public static void Execute() => Object.Instantiate(Resources.Load(INITIALIZATOR_NAME));
 }
