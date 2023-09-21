@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Wood
   description: Simple, wooden log
   icon: {fileID: 21300000, guid: 8c97c48f7f98dd247b9d88011d52a337, type: 3}
+  stackSize: 2

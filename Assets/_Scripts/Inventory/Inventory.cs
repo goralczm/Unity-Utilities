@@ -6,30 +6,40 @@ public class Inventory : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int _capacity;
 
-    public Dictionary<Item, int> items;
+    public List<KeyValuePair<Item, int>> items;
 
     public delegate void ItemsChangedDelegate();
     public ItemsChangedDelegate itemsChangedHandler;
 
     private void Start()
     {
-        items = new Dictionary<Item, int>();
+        items = new List<KeyValuePair<Item, int>>();
     }
 
     public void AddItem(Item newItem)
     {
+        bool addedItem = false;
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].Key == newItem)
+            {
+                if (items[i].Value == newItem.stackSize)
+                    continue;
+
+                items[i] = new KeyValuePair<Item, int>(newItem, items[i].Value + 1);
+                addedItem = true;
+                break;
+            }
+        }
+
         if (items.Count == _capacity)
             return;
 
-        if (items.ContainsKey(newItem))
+        if (!addedItem)
         {
-            if (items[newItem] == newItem.stackSize)
-                return;
-
-            items[newItem] += 1;
+            KeyValuePair<Item, int> newPair = new KeyValuePair<Item, int>(newItem, 1);
+            items.Add(newPair);
         }
-        else
-            items.Add(newItem, 1);
 
         if (itemsChangedHandler != null)
             itemsChangedHandler.Invoke();
@@ -37,13 +47,20 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(Item itemToRemove)
     {
-        if (!items.ContainsKey(itemToRemove))
-            return;
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].Key == itemToRemove)
+            {
+                if (items[i].Value == 1)
+                {
+                    items.RemoveAt(i);
+                    break;
+                }
 
-        if (items[itemToRemove] == 1)
-            items.Remove(itemToRemove);
-        else
-            items[itemToRemove] -= 1;
+                items[i] = new KeyValuePair<Item, int>(itemToRemove, items[i].Value - 1);
+                break;
+            }
+        }
 
         if (itemsChangedHandler != null)
             itemsChangedHandler.Invoke();

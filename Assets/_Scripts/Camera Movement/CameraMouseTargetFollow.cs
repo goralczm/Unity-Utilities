@@ -9,16 +9,16 @@ public class CameraMouseTargetFollow : MonoBehaviour
     [Header("Instances")]
     [SerializeField] private Transform _target;
 
-    private InputManager _input;
+    private Camera _cam;
 
-    private void Awake()
+    private void Start()
     {
-        _input = InputManager.Instance;
+        _cam = Camera.main;
     }
 
     private void Update()
     {
-        Vector3 targetPos = Vector2.Lerp(_target.position, _input.MouseWorldPos, _mouseFavoritism);
+        Vector3 targetPos = Vector2.Lerp(_target.position, _cam.ScreenToWorldPoint(Input.mousePosition), _mouseFavoritism);
         targetPos.z = -10;
 
         transform.position = Vector3.Lerp(transform.position, targetPos, _smoothness * Time.deltaTime);
