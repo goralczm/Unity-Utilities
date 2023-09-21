@@ -32,10 +32,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        if (items.Count == _capacity)
-            return;
-
-        if (!addedItem)
+        if (items.Count != _capacity && !addedItem)
         {
             KeyValuePair<Item, int> newPair = new KeyValuePair<Item, int>(newItem, 1);
             items.Add(newPair);
@@ -47,7 +44,7 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(Item itemToRemove)
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
             if (items[i].Key == itemToRemove)
             {
