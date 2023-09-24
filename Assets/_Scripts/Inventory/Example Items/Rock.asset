@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Rock
   description: Small, grey rock
   icon: {fileID: 21300000, guid: 782286ffbcc2af741a1d6159b133045e, type: 3}
-  stackSize: 2
+  stackSize: 16

@@ -49,10 +49,12 @@ public class Inventory : MonoBehaviour
         throw new IndexNotFoundException("No item with free space!");
     }
 
-    private void AddItemToExistingSlot(Item newItem, int amount, int foundIndex)
+    public void AddItemToExistingSlot(Item newItem, int amount, int foundIndex)
     {
         int totalItemsAmount = items[foundIndex].Value + amount;
         items[foundIndex] = new KeyValuePair<Item, int>(newItem, Mathf.Min(items[foundIndex].Key.stackSize, totalItemsAmount));
+
+        InvokeOnItemChangedHandler();
 
         if (totalItemsAmount > items[foundIndex].Key.stackSize)
             AddItem(newItem, totalItemsAmount - items[foundIndex].Key.stackSize);
@@ -71,7 +73,7 @@ public class Inventory : MonoBehaviour
         }
         catch
         {
-            
+
         }
     }
 
@@ -105,6 +107,44 @@ public class Inventory : MonoBehaviour
                     items[i] = new KeyValuePair<Item, int>(itemToRemove, amountAfterRemove);
                 break;
             }
+        }
+
+        InvokeOnItemChangedHandler();
+    }
+
+    public void RemoveItemFromIndex(int index)
+    {
+        items[index] = new KeyValuePair<Item, int>();
+
+        InvokeOnItemChangedHandler();
+    }
+
+    public KeyValuePair<Item, int> SwapInventoryItems(KeyValuePair<Item, int> newItem, int indexToSwap)
+    {
+        KeyValuePair<Item, int> itemToSwap = items[indexToSwap];
+        items[indexToSwap] = newItem;
+
+        InvokeOnItemChangedHandler();
+
+        return itemToSwap;
+    }
+
+    public void DivideItem(int indexToDivide)
+    {
+        if (items[indexToDivide].Value == 1)
+            return;
+
+        try
+        {
+            int firstEmptySlotIndex = ReturnFirstEmptySlotIndex();
+            int amountAfterDivision = Mathf.FloorToInt(items[indexToDivide].Value / 2);
+
+            items[indexToDivide] = new KeyValuePair<Item, int>(items[indexToDivide].Key, items[indexToDivide].Value - amountAfterDivision);
+            items[firstEmptySlotIndex] = new KeyValuePair<Item, int>(items[indexToDivide].Key, amountAfterDivision);
+        }
+        catch
+        {
+
         }
 
         InvokeOnItemChangedHandler();

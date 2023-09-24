@@ -8,4 +8,9 @@ public class Item : ScriptableObject
     public Sprite icon;
 
     public int stackSize = 16;
+
+    public virtual void UseItem()
+    {
+
+    }
 }
