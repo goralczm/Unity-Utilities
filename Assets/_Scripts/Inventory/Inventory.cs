@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     public delegate void ItemsChangedDelegate();
     public ItemsChangedDelegate itemsChangedHandler;
 
-    private void Start()
+    private void Awake()
     {
         items = new KeyValuePair<Item, int>[_capacity];
     }
