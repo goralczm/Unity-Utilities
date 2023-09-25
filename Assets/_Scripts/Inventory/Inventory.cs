@@ -20,6 +20,9 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item newItem, int amount)
     {
+        if (amount == 0)
+            return;
+
         try
         {
             int foundIndex = ReturnItemIndexWithFreeSpace(newItem);
@@ -148,6 +151,20 @@ public class Inventory : MonoBehaviour
         }
 
         InvokeOnItemChangedHandler();
+    }
+
+    public int CountItemOccurrences(Item item)
+    {
+        int sum = 0;
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i].Key != item)
+                continue;
+
+            sum += items[i].Value;
+        }
+
+        return sum;
     }
 
     private void InvokeOnItemChangedHandler()

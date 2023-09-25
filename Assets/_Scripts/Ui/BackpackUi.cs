@@ -4,18 +4,11 @@ public class BackpackUi : InventoryUi
 {
     [SerializeField] private UITweener _tweener;
 
-    #region Singleton
-    public static BackpackUi Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-    #endregion
+    private BackpackManager _backpackManager;
 
     public void ShowBackpack(Backpack backpack)
     {
-        if (backpack == _inventory)
+        if (backpack == inventory)
         {
             HideBackpack();
             return;
@@ -27,7 +20,19 @@ public class BackpackUi : InventoryUi
 
     public void HideBackpack()
     {
-        _inventory = null;
         _tweener.Hide();
+    }
+
+    public void ResetInventory()
+    {
+        inventory = null;
+    }
+
+    public void CloseBackpackIfPlayerIsTooFar()
+    {
+        if (_backpackManager == null)
+            _backpackManager = BackpackManager.Instance;
+
+        _backpackManager.CloseBackpackIfPlayerIsTooFar();
     }
 }

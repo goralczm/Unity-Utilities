@@ -4,6 +4,8 @@ public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _interactionRadius;
 
+    public float InteractionRadius => _interactionRadius;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))

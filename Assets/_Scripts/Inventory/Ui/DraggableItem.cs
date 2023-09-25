@@ -7,7 +7,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     private CanvasGroup _canvasGroup;
     private RectTransform _rect;
     private Image _image;
-    private Vector2 _startPos;
 
     private DragAndDropCanvas _dragCanvas;
 
@@ -34,7 +33,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        _rect.anchoredPosition = _startPos;
+        _rect.anchoredPosition = Vector2.zero;
         _canvasGroup.blocksRaycasts = true;
         _dragCanvas.HideImage();
     }
