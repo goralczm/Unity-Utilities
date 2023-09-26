@@ -88,9 +88,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         inventoryToMove.AddItem(itemBeingMoved, amountBeingMoved);
         int totalItemsAfterMove = inventoryToMove.CountItemOccurrences(itemBeingMoved);
 
+        int itemsAccuallyMoved = totalItemsAfterMove - totalItemsBeforeMove;
+
         _inventory.RemoveItemFromIndex(_slotIndex);
-        if (totalItemsAfterMove - totalItemsBeforeMove < amountBeingMoved)
-            _inventory.AddItem(itemBeingMoved, amountBeingMoved - (totalItemsAfterMove - totalItemsBeforeMove));
+        if (itemsAccuallyMoved < amountBeingMoved)
+            _inventory.AddItem(itemBeingMoved, amountBeingMoved - itemsAccuallyMoved);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -147,8 +149,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         _inventory.AddItemToExistingSlot(draggedItem, draggedAmount, _slotIndex);
         int totalItemsAfterAddition = _inventory.CountItemOccurrences(draggedItem);
 
+        int itemsAccuallyMoved = totalItemsAfterAddition - totalItemsBeforeAddition;
+
         draggedSlot._inventory.RemoveItemFromIndex(draggedSlot._slotIndex);
-        if (totalItemsAfterAddition - totalItemsBeforeAddition < draggedAmount)
-            draggedSlot._inventory.AddItem(draggedItem, draggedAmount - (totalItemsAfterAddition - totalItemsBeforeAddition));
+        if (itemsAccuallyMoved < draggedAmount)
+            draggedSlot._inventory.AddItem(draggedItem, draggedAmount - itemsAccuallyMoved);
     }
 }
