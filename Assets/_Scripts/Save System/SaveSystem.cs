@@ -4,9 +4,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
+    public const string EXTENSION = ".ffg";
+
     public static object LoadData(string fileName)
     {
-        string path = Application.persistentDataPath + "/" + fileName + ".def";
+        string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
 
         if (File.Exists(path))
         {
@@ -24,7 +26,7 @@ public static class SaveSystem
 
     public static void SaveData(object dataScript, string fileName)
     {
-        string path = Application.persistentDataPath + "/" + fileName + ".def";
+        string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);

@@ -19,9 +19,9 @@ public class TopDownPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _horizontalAxis = Input.GetAxis("Horizontal");
-        _verticalAxis = Input.GetAxis("Vertical");
-        _speed = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
+        _horizontalAxis = PlayerInput.HorizontalAxis;
+        _verticalAxis = PlayerInput.VerticalAxis;
+        _speed = PlayerInput.SprintTrigger ? _runSpeed : _walkSpeed;
     }
 
     private void FixedUpdate()

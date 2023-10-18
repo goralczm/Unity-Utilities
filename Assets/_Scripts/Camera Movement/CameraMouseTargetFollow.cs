@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class CameraMouseTargetFollow : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private float _smoothness;
-    [SerializeField, Range(0f, .5f)] private float _mouseFavoritism;
+    [Header("Mouse Settings")]
+    [SerializeField] private float _smoothness = 2f;
+    [SerializeField, Range(0f, .5f)] private float _mouseFavoritism = .15f;
+
+    [Header("Movement Settings")]
+    [SerializeField, Range(1f, 15f)] private float _maxAcceleration = 10f;
+    [SerializeField] private Vector2 _offset;
 
     [Header("Instances")]
     [SerializeField] private Transform _target;
@@ -18,9 +22,12 @@ public class CameraMouseTargetFollow : MonoBehaviour
 
     private void Update()
     {
+        float distanceBtwTarget = Vector2.Distance(transform.position, _target.position);
+
         Vector3 targetPos = Vector2.Lerp(_target.position, _cam.ScreenToWorldPoint(Input.mousePosition), _mouseFavoritism);
+        targetPos = (Vector2)targetPos + _offset;
         targetPos.z = -10;
 
-        transform.position = Vector3.Lerp(transform.position, targetPos, _smoothness * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPos, _smoothness * Mathf.Clamp(distanceBtwTarget, 1f, _maxAcceleration) * Time.deltaTime);
     }
 }
