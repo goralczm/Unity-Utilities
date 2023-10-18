@@ -17,6 +17,7 @@ public class UITweener : MonoBehaviour
     [SerializeField] private float delay;
 
     [SerializeField] private int loopsCount;
+    [SerializeField] private bool startReversed;
 
     [SerializeField] private Vector3 startValue;
     [SerializeField] private Vector3 finalValue;
@@ -41,19 +42,27 @@ public class UITweener : MonoBehaviour
         {
             case UIAnimationType.Move:
                 _rect.anchoredPosition = startValue;
+                if (startReversed)
+                    _rect.anchoredPosition = finalValue;
                 break;
             case UIAnimationType.Scale:
                 _rect.localScale = startValue;
+                if (startReversed)
+                    _rect.localScale = finalValue;
                 break;
             case UIAnimationType.Fade:
                 _canvasGroup = GetComponent<CanvasGroup>();
                 if (_canvasGroup == null)
                     _canvasGroup = gameObject.AddComponent<CanvasGroup>();
                 _canvasGroup.alpha = startValue.x;
+                if (startReversed)
+                    _canvasGroup.alpha = finalValue.x;
                 break;
         }
 
         _isReversed = false;
+        if (startReversed)
+            _isReversed = true;
         _hasSetup = true;
     }
 
