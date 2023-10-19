@@ -6,4 +6,5 @@ public static class PlayerInput
     public static float VerticalAxis => Input.GetAxis("Vertical");
     public static bool SprintTrigger => Input.GetKey(KeyCode.LeftShift);
     public static bool JumpTrigger => Input.GetKeyDown(KeyCode.Space);
+    public static bool DashTrigger => Input.GetKeyDown(KeyCode.F);
 }
