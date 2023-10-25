@@ -1,88 +1,200 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerCollision))]
 public class PlatformerPlayerMovement : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private float _defaultGravity;
+    [SerializeField] private float _movementImpairmentTime;
+    [SerializeField] private float _jumpBufferTime;
+
     [Header("Movement Settings")]
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
+
+    [Header("Dash Settings")]
     [SerializeField] private float _dashForce;
+    [SerializeField] private int _dashesCount;
+
+    [Header("Walls Settings")]
+    [SerializeField] private float _wallSlideSpeed;
+    [SerializeField] private float _wallClimbingSpeed;
+    [SerializeField] private float _wallJumpForce;
 
     [Header("Jump Settings")]
     [SerializeField] private int _bonusJumps;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _groundCheckRadius;
-    [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _maxFallSpeed;
 
-    [Header("Instances")]
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private Transform[] _wallChecks;
-
+    private PlayerCollision _coll;
     private Rigidbody2D _rb;
-    private float _horizontalAxis;
-    private float _verticalAxis;
     private float _speed;
     private int _jumpsLeft;
+    private int _dashesLeft;
+    private bool _isGrabbed;
+    private bool _disableMovement;
+    private float _timer;
+    private float _jumpBufferTimer;
+    private bool _hasJumpBuffered;
 
     private void Start()
     {
+        _coll = GetComponent<PlayerCollision>();
         _rb = GetComponent<Rigidbody2D>();
         _jumpsLeft = _bonusJumps;
     }
 
     private void Update()
     {
-        _horizontalAxis = PlayerInput.HorizontalAxis;
-        _verticalAxis = PlayerInput.VerticalAxis;
-        _speed = PlayerInput.SprintTrigger ? _runSpeed : _walkSpeed;
+        SetInputs();
 
-        if (PlayerInput.DashTrigger)
-            Dash();
+        if (_disableMovement)
+        {
+            _timer -= Time.deltaTime;
 
-        bool isGrounded = GroundCheck();
+            if (_timer <= 0)
+            {
+                _timer = _movementImpairmentTime;
+                _disableMovement = false;
+            }
+        }
 
-        if (isGrounded)
+        if (_coll.IsLeftWall || _coll.IsRightWall)
+        {
+            if (PlayerInput.JumpTrigger)
+            {
+                WallJump();
+                _isGrabbed = false;
+            }
+        }
+
+        if (_disableMovement)
+            _isGrabbed = false;
+
+        if (_isGrabbed)
+        {
+            if (PlayerInput.JumpTrigger)
+            {
+                WallJump();
+                return;
+            }
+
+            SetGravity(0);
+            SetVelocity(0, PlayerInput.VerticalAxisRaw * _wallClimbingSpeed);
+            return;
+        }
+
+        if (!_disableMovement)
+        {
+            Walk();
+
+            if (PlayerInput.DashTrigger && _dashesLeft > 0)
+            {
+                Vector2 dir = new Vector2(PlayerInput.HorizontalAxisRaw, PlayerInput.VerticalAxisRaw) * _dashForce;
+                Dash(dir);
+                _dashesLeft--;
+            }
+
+            if (!_coll.IsGround)
+            {
+                if ((_coll.IsLeftWall && PlayerInput.HorizontalAxisRaw == -1) ||
+                    (_coll.IsRightWall && PlayerInput.HorizontalAxisRaw == 1))
+                {
+                    float slideSpeed = -_wallSlideSpeed;
+                    if (PlayerInput.VerticalAxisRaw == -1)
+                        slideSpeed *= 3f;
+
+                    SetVelocity(0, slideSpeed);
+                }
+            }
+        }
+
+        if (_coll.IsGround)
+        {
             _jumpsLeft = _bonusJumps;
+            _dashesLeft = _dashesCount;
 
-        if (PlayerInput.JumpTrigger && (isGrounded || _jumpsLeft > 0))
-            Jump();
+            if (_jumpBufferTime != 0 && Time.time - _jumpBufferTimer <= _jumpBufferTime)
+            {
+                _hasJumpBuffered = true;
+            }
+
+            if (_hasJumpBuffered)
+            {
+                Jump();
+                _hasJumpBuffered = false;
+            }
+        }
+
+        if (PlayerInput.JumpTrigger)
+        {
+            _jumpBufferTimer = Time.time;
+
+            if (_coll.IsGround || _jumpsLeft > 0)
+                Jump();
+        }
     }
 
-    private void FixedUpdate()
+    private void SetInputs()
     {
-        float currVelocityY = Mathf.Clamp(_rb.velocity.y, -_maxFallSpeed, 100f);
-        _rb.velocity = new Vector2(_horizontalAxis * _speed, currVelocityY);
+        _speed = PlayerInput.SprintTrigger ? _runSpeed : _walkSpeed;
+
+        if (_coll.IsLeftWall || _coll.IsRightWall)
+        {
+            _isGrabbed = PlayerInput.WallGrabTrigger;
+        }
+        else
+            _isGrabbed = false;
+    }
+
+    private void SetVelocity(float x, float y)
+    {
+        _rb.velocity = new Vector2(x, y);
+    }
+
+    private void SetGravity(float gravity)
+    {
+        _rb.gravityScale = gravity;
+    }
+
+    private void ClampVelocity()
+    {
+        float maxY = Mathf.Clamp(_rb.velocity.y, -_maxFallSpeed, _maxFallSpeed);
+        SetVelocity(_rb.velocity.x, maxY);
+    }
+
+    private void Walk()
+    {
+        SetGravity(_defaultGravity);
+        SetVelocity(PlayerInput.HorizontalAxis * _speed, _rb.velocity.y);
+        ClampVelocity();
     }
 
     private void Jump()
     {
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y / 10f);
-        _rb.velocity += new Vector2(0, _jumpForce);
+        SetVelocity(_rb.velocity.x, _rb.velocity.y / 10f);
+        _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         _jumpsLeft--;
     }
 
-    private void Dash()
+    private void WallJump()
     {
-        //_rb.velocity += new Vector2(_horizontalAxis, _verticalAxis) * _dashForce;
-        _rb.AddForce(new Vector2(_horizontalAxis, _verticalAxis) * _dashForce);
+        Vector2 dir = Vector2.zero;
+        if (_coll.IsLeftWall)
+            dir = new Vector2(_wallJumpForce / 2f, _wallJumpForce);
+
+        if (_coll.IsRightWall)
+            dir = new Vector2(-_wallJumpForce / 2f, _wallJumpForce);
+
+        Dash(dir);
     }
 
-    private bool GroundCheck()
+    private void Dash(Vector2 dir)
     {
-        Collider2D hit = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
-        if (hit != null)
-            return true;
-
-        return false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_groundCheck == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+        SetVelocity(0, 0);
+        SetGravity(0);
+        _rb.AddForce(dir, ForceMode2D.Impulse);
+        _disableMovement = true;
     }
 }
