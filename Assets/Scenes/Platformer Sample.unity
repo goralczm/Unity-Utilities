@@ -727,8 +727,8 @@ GameObject:
   - component: {fileID: 1580376834}
   - component: {fileID: 1580376837}
   - component: {fileID: 1580376836}
-  - component: {fileID: 1580376835}
   - component: {fileID: 1580376838}
+  - component: {fileID: 1580376835}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -768,7 +768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultGravity: 3
   _movementImpairmentTime: 0.2
-  _jumpBufferTime: 0.3
+  _jumpBufferTime: 0.2
   _walkSpeed: 7
   _runSpeed: 10
   _dashForce: 15
@@ -776,8 +776,8 @@ MonoBehaviour:
   _wallSlideSpeed: 1
   _wallClimbingSpeed: 5
   _wallJumpForce: 10
-  _bonusJumps: 0
-  _jumpForce: 15
+  _jumpsCount: 1
+  _jumpForce: 12
   _maxFallSpeed: 15
 --- !u!50 &1580376836
 Rigidbody2D:
@@ -833,7 +833,8 @@ MonoBehaviour:
     m_Bits: 64
   _groundCheckRadius: 0.2
   _wallCheckRadius: 0.1
-  _groundCheck: {fileID: 1809532694}
+  _groundChecks:
+  - {fileID: 1809532694}
   _leftWallChecks:
   - {fileID: 2093749038}
   - {fileID: 738482611}

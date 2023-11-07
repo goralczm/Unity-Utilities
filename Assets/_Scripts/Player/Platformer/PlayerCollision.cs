@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
@@ -16,15 +14,18 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private float _wallCheckRadius;
 
     [Header("Checks")]
-    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private Transform[] _groundChecks;
     [SerializeField] private Transform[] _leftWallChecks;
     [SerializeField] private Transform[] _rightWallChecks;
 
     private bool GroundCheck()
     {
-        Collider2D hit = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
-        if (hit != null)
-            return true;
+        foreach (Transform groundCheck in _groundChecks)
+        {
+            Collider2D hit = Physics2D.OverlapCircle(groundCheck.position, _groundCheckRadius, _groundLayer);
+            if (hit != null)
+                return true;
+        }
 
         return false;
     }
@@ -55,17 +56,25 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_groundCheck == null)
-            return;
+        if (_leftWallChecks != null && _leftWallChecks.Length > 0)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (Transform leftWallCheck in _leftWallChecks)
+                Gizmos.DrawWireSphere(leftWallCheck.position, _wallCheckRadius);
+        }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+        if (_rightWallChecks != null && _rightWallChecks.Length > 0)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (Transform rightWallCheck in _rightWallChecks)
+                Gizmos.DrawWireSphere(rightWallCheck.position, _wallCheckRadius);
+        }
 
-        Gizmos.color = Color.yellow;
-        foreach (Transform leftWallCheck in _leftWallChecks)
-            Gizmos.DrawWireSphere(leftWallCheck.position, _wallCheckRadius);
-
-        foreach (Transform rightWallCheck in _rightWallChecks)
-            Gizmos.DrawWireSphere(rightWallCheck.position, _wallCheckRadius);
+        if (_groundChecks != null && _groundChecks.Length > 0)
+        {
+            Gizmos.color = Color.red;
+            foreach (Transform groundCheck in _groundChecks)
+                Gizmos.DrawWireSphere(groundCheck.position, _groundCheckRadius);
+        }
     }
 }

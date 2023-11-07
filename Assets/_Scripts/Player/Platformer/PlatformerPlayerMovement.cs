@@ -1,4 +1,3 @@
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerCollision))]
@@ -23,7 +22,7 @@ public class PlatformerPlayerMovement : MonoBehaviour
     [SerializeField] private float _wallJumpForce;
 
     [Header("Jump Settings")]
-    [SerializeField] private int _bonusJumps;
+    [SerializeField] private int _jumpsCount;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _maxFallSpeed;
 
@@ -42,7 +41,7 @@ public class PlatformerPlayerMovement : MonoBehaviour
     {
         _coll = GetComponent<PlayerCollision>();
         _rb = GetComponent<Rigidbody2D>();
-        _jumpsLeft = _bonusJumps;
+        _jumpsLeft = _jumpsCount;
     }
 
     private void Update()
@@ -112,7 +111,7 @@ public class PlatformerPlayerMovement : MonoBehaviour
 
         if (_coll.IsGround)
         {
-            _jumpsLeft = _bonusJumps;
+            _jumpsLeft = _jumpsCount;
             _dashesLeft = _dashesCount;
 
             if (_jumpBufferTime != 0 && Time.time - _jumpBufferTimer <= _jumpBufferTime)
@@ -160,8 +159,11 @@ public class PlatformerPlayerMovement : MonoBehaviour
 
     private void ClampVelocity()
     {
-        float maxY = Mathf.Clamp(_rb.velocity.y, -_maxFallSpeed, _maxFallSpeed);
-        SetVelocity(_rb.velocity.x, maxY);
+        float clampedY = _rb.velocity.y;
+        if (_rb.velocity.y < 0)
+            clampedY = Mathf.Clamp(clampedY, -_maxFallSpeed, 0);
+
+        SetVelocity(_rb.velocity.x, clampedY);
     }
 
     private void Walk()
@@ -174,6 +176,7 @@ public class PlatformerPlayerMovement : MonoBehaviour
     private void Jump()
     {
         SetVelocity(_rb.velocity.x, _rb.velocity.y / 10f);
+        SetGravity(0);
         _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         _jumpsLeft--;
     }
