@@ -17,6 +17,11 @@ public class WaitCommand : Command
         _startTime = Time.time;
     }
 
+    public override void Tick()
+    {
+
+    }
+
     public override void Undo()
     {
         _startTime = Time.time;

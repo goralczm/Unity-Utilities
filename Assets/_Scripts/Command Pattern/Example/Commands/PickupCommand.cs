@@ -19,6 +19,11 @@ public class PickupCommand : Command
         _itemPickup.Interact();
     }
 
+    public override void Tick()
+    {
+
+    }
+
     public override void Undo()
     {
         _inventory.RemoveItem(_itemPickup._item, 1);

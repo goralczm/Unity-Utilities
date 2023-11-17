@@ -20,6 +20,11 @@ public class ChangeColorCommand : Command
         _rend.color = _newColor;
     }
 
+    public override void Tick()
+    {
+
+    }
+
     public override void Undo()
     {
         _rend.color = _startColor;

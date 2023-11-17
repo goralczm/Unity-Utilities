@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class Helpers
 {
-    public static void DestroyChildren(this Transform t)
+    public static void DestroyChildren(this UnityEngine.Transform t)
     {
-        foreach (Transform child in t) Object.Destroy(child.gameObject);
+        foreach (UnityEngine.Transform child in t) Object.Destroy(child.gameObject);
     }
 
     public static void RestartLevel()

@@ -26,7 +26,10 @@ public class CommandProcessor : MonoBehaviour
             return;
 
         if (!IsCurrentCommandFinished)
+        {
+            _currentCommand?.Tick();
             return;
+        }
 
         SetAndExecuteCommand(_commands.Dequeue());
     }
@@ -40,6 +43,7 @@ public class CommandProcessor : MonoBehaviour
     protected void ExecuteCommand(Command command)
     {
         command.Execute();
+        command.Tick();
         _history.Push(command);
     }
 

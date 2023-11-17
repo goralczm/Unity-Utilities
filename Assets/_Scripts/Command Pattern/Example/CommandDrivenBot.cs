@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CommandDrivenBot : CommandProcessor
@@ -7,7 +6,6 @@ public class CommandDrivenBot : CommandProcessor
     [SerializeField] private float _searchRange;
 
     [Header("Instances")]
-    [SerializeField] private MovementAgent _movementAgent;
     [SerializeField] private Inventory _botInventory;
 
     private Camera _cam;
@@ -21,6 +19,12 @@ public class CommandDrivenBot : CommandProcessor
 
     protected override void ListenForCommands()
     {
+        if (Input.GetMouseButtonDown(1))
+        {
+            _currentCommand = null;
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             EnqueueMoveToMouse();
@@ -52,7 +56,7 @@ public class CommandDrivenBot : CommandProcessor
 
     private void EnqueueMove(Vector2 position)
     {
-        MoveCommand moveCommand = new MoveCommand(_movementAgent.Destination, position, _movementAgent);
+        MoveCommand moveCommand = new MoveCommand(transform.position, position, transform, 3f);
         EnqueueCommand(moveCommand);
     }
 

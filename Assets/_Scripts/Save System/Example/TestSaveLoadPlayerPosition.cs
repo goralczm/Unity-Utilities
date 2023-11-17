@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TestSaveLoadPlayerPosition : MonoBehaviour
 {
-    [SerializeField] private Transform _player;
+    [SerializeField] private UnityEngine.Transform _player;
 
     private void Update()
     {

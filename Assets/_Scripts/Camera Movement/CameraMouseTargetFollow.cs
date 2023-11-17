@@ -11,7 +11,7 @@ public class CameraMouseTargetFollow : MonoBehaviour
     [SerializeField] private Vector2 _offset;
 
     [Header("Instances")]
-    [SerializeField] private Transform _target;
+    [SerializeField] private UnityEngine.Transform _target;
 
     private Camera _cam;
 

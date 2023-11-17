@@ -12,7 +12,7 @@ public class CameraFollowTarget : MonoBehaviour
     [SerializeField, Range(0, 2f)] private float _fallingVelocityHeadsupStrength;
 
     [Header("Instances")]
-    [SerializeField] private Transform _target;
+    [SerializeField] private UnityEngine.Transform _target;
 
     private Rigidbody2D _targetRb;
 

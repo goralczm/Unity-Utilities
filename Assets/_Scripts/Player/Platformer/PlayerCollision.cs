@@ -14,13 +14,13 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private float _wallCheckRadius;
 
     [Header("Checks")]
-    [SerializeField] private Transform[] _groundChecks;
-    [SerializeField] private Transform[] _leftWallChecks;
-    [SerializeField] private Transform[] _rightWallChecks;
+    [SerializeField] private UnityEngine.Transform[] _groundChecks;
+    [SerializeField] private UnityEngine.Transform[] _leftWallChecks;
+    [SerializeField] private UnityEngine.Transform[] _rightWallChecks;
 
     private bool GroundCheck()
     {
-        foreach (Transform groundCheck in _groundChecks)
+        foreach (UnityEngine.Transform groundCheck in _groundChecks)
         {
             Collider2D hit = Physics2D.OverlapCircle(groundCheck.position, _groundCheckRadius, _groundLayer);
             if (hit != null)
@@ -32,7 +32,7 @@ public class PlayerCollision : MonoBehaviour
 
     private bool LeftWallCheck()
     {
-        foreach (Transform leftWallCheck in _leftWallChecks)
+        foreach (UnityEngine.Transform leftWallCheck in _leftWallChecks)
         {
             Collider2D hit = Physics2D.OverlapCircle(leftWallCheck.position, _wallCheckRadius, _groundLayer);
             if (hit != null)
@@ -44,7 +44,7 @@ public class PlayerCollision : MonoBehaviour
 
     private bool RightWallCheck()
     {
-        foreach (Transform rightWallCheck in _rightWallChecks)
+        foreach (UnityEngine.Transform rightWallCheck in _rightWallChecks)
         {
             Collider2D hit = Physics2D.OverlapCircle(rightWallCheck.position, _wallCheckRadius, _groundLayer);
             if (hit != null)
@@ -59,21 +59,21 @@ public class PlayerCollision : MonoBehaviour
         if (_leftWallChecks != null && _leftWallChecks.Length > 0)
         {
             Gizmos.color = Color.yellow;
-            foreach (Transform leftWallCheck in _leftWallChecks)
+            foreach (UnityEngine.Transform leftWallCheck in _leftWallChecks)
                 Gizmos.DrawWireSphere(leftWallCheck.position, _wallCheckRadius);
         }
 
         if (_rightWallChecks != null && _rightWallChecks.Length > 0)
         {
             Gizmos.color = Color.yellow;
-            foreach (Transform rightWallCheck in _rightWallChecks)
+            foreach (UnityEngine.Transform rightWallCheck in _rightWallChecks)
                 Gizmos.DrawWireSphere(rightWallCheck.position, _wallCheckRadius);
         }
 
         if (_groundChecks != null && _groundChecks.Length > 0)
         {
             Gizmos.color = Color.red;
-            foreach (Transform groundCheck in _groundChecks)
+            foreach (UnityEngine.Transform groundCheck in _groundChecks)
                 Gizmos.DrawWireSphere(groundCheck.position, _groundCheckRadius);
         }
     }
