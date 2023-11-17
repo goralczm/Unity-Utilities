@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Item _item;
+    [field: SerializeField] public Item Item { get; private set; }
 
     public void Interact()
     {
-        GameManager.Instance.PlayerInventory.AddItem(_item, 1);
+        GameManager.Instance.PlayerInventory.AddItem(Item, 1);
         Destroy(gameObject);
     }
 }
