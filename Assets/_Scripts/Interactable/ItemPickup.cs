@@ -2,11 +2,26 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour, IInteractable
 {
-    [field: SerializeField] public Item Item { get; private set; }
+    [SerializeField] public Item _item;
+
+    private Inventory _inventoryToAdd;
 
     public void Interact()
     {
-        GameManager.Instance.PlayerInventory.AddItem(Item, 1);
-        Destroy(gameObject);
+        AddToInventory();
+        gameObject.SetActive(false);
+    }
+
+    private void AddToInventory()
+    {
+        if (_inventoryToAdd == null)
+            return;
+
+        _inventoryToAdd.AddItem(_item, 1);
+    }
+
+    public void SetInventory(Inventory inventory)
+    {
+        _inventoryToAdd = inventory;
     }
 }

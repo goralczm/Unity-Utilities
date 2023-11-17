@@ -15,12 +15,13 @@ public class PickupCommand : Command
 
     public override void Execute()
     {
-        _inventory.AddItem(_itemPickup.Item, 1);
-        Object.Destroy(_itemPickup.gameObject);
+        _itemPickup.SetInventory(_inventory);
+        _itemPickup.Interact();
     }
 
     public override void Undo()
     {
-        _inventory.RemoveItem(_itemPickup.Item, 1);
+        _inventory.RemoveItem(_itemPickup._item, 1);
+        _itemPickup.gameObject.SetActive(true);
     }
 }

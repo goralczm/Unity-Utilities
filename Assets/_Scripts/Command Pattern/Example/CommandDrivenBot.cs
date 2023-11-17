@@ -1,37 +1,30 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CommandDrivenBot : CommandProcessor
 {
+    [Header("Settings")]
+    [SerializeField] private float _searchRange;
+
     [Header("Instances")]
     [SerializeField] private MovementAgent _movementAgent;
     [SerializeField] private Inventory _botInventory;
 
+    private Camera _cam;
     private SpriteRenderer _rend;
-    private bool _isRewinding;
 
     private void Start()
     {
+        _cam = Camera.main;
         _rend = GetComponent<SpriteRenderer>();
-
-        ItemPickup itemPickup = FindObjectOfType<ItemPickup>();
-
-        MoveCommand moveCommand = new MoveCommand(_movementAgent.Destination, itemPickup.transform.position, _movementAgent);
-        EnqueueCommand(moveCommand);
-
-        PickupCommand pickupCommand = new PickupCommand(_botInventory, itemPickup);
-        EnqueueCommand(pickupCommand);
     }
 
     protected override void ListenForCommands()
     {
-        return;
-
-        CheckRewindCondition();
-
-        if (_isRewinding)
+        if (Input.GetMouseButtonDown(0))
         {
-            Rewind();
-            return;
+            EnqueueMoveToMouse();
+            EnqueueWait(1f);
         }
 
         if (_commands.Count > 0)
@@ -40,34 +33,96 @@ public class CommandDrivenBot : CommandProcessor
         if (!IsCurrentCommandFinished)
             return;
 
-        _rend.color = Color.white;
-        SetRandomDestination();
-        Wait(1f);
-    }
-
-    private void CheckRewindCondition()
-    {
-        if (_history.Count == 0)
-            _isRewinding = false;
-
-        if (_history.Count >= 5)
-            _isRewinding = true;
-    }
-
-    private void Rewind()
-    {
-        if (!IsCurrentCommandFinished || _commands.Count > 0)
+        ItemPickup nearestItem = FindNearestItem();
+        if (nearestItem != null)
+        {
+            EnqueuePickupSequence(nearestItem);
             return;
+        }
 
-        _rend.color = Color.magenta;
-        UndoLastCommand();
+        EnqueueRandomDestination();
+        EnqueueWait(1f);
     }
 
-    private void SetRandomDestination()
+    private void EnqueueMoveToMouse()
+    {
+        Vector2 mouseWorldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
+        EnqueueMove(mouseWorldPos);
+    }
+
+    private void EnqueueMove(Vector2 position)
+    {
+        MoveCommand moveCommand = new MoveCommand(_movementAgent.Destination, position, _movementAgent);
+        EnqueueCommand(moveCommand);
+    }
+
+    private void EnqueueWait(float delay)
+    {
+        WaitCommand waitCommand = new WaitCommand(delay);
+        EnqueueCommand(waitCommand);
+    }
+
+    private void EnqueuePickupSequence(ItemPickup item)
+    {
+        EnqueueMove(item.transform.position);
+
+        EnqueueWait(1f);
+
+        EnqueuePickupItem(item);
+
+        EnqueueRandomColorChange();
+
+        EnqueueWait(1f);
+    }
+
+    private void EnqueuePickupItem(ItemPickup item)
+    {
+        PickupCommand pickupCommand = new PickupCommand(_botInventory, item);
+        EnqueueCommand(pickupCommand);
+    }
+
+    private ItemPickup FindNearestItem()
+    {
+        ItemPickup pickup = null;
+        float currentMinDistance = int.MaxValue;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _searchRange);
+        foreach (Collider2D hit in hits)
+        {
+            ItemPickup item = hit.GetComponent<ItemPickup>();
+            if (item == null)
+                continue;
+
+            float distance = Vector2.Distance(transform.position, hit.transform.position);
+            if (distance < currentMinDistance)
+            {
+                currentMinDistance = distance;
+                pickup = item;
+            }
+        }
+
+        return pickup;
+    }
+
+    private void EnqueueRandomColorChange()
+    {
+        Color newColor = GetRandomColor();
+
+        ChangeColorCommand changeColorCommand = new ChangeColorCommand(_rend.color, newColor, _rend);
+        EnqueueCommand(changeColorCommand);
+    }
+
+    private Color GetRandomColor()
+    {
+        return new Color(Random.Range(0f, 1f),
+                         Random.Range(0f, 1f),
+                         Random.Range(0f, 1f));
+    }
+
+    private void EnqueueRandomDestination()
     {
         Vector2 randomDestination = GetRandomPosition();
-        MoveCommand moveCommand = new MoveCommand(_movementAgent.Destination, randomDestination, _movementAgent);
-        EnqueueCommand(moveCommand);
+        EnqueueMove(randomDestination);
     }
 
     private Vector2 GetRandomPosition()
@@ -76,9 +131,9 @@ public class CommandDrivenBot : CommandProcessor
                            Random.Range(-4f, 4f));
     }
 
-    private void Wait(float delay)
+    private void OnDrawGizmos()
     {
-        WaitCommand waitCommand = new WaitCommand(delay);
-        EnqueueCommand(waitCommand);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, _searchRange);
     }
 }
