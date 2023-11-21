@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-public static class StatusEffectFactory<T> where T : FactoryItem
+public abstract class Factory<T> where T : FactoryItem
 {
     private static Dictionary<string, Type> _itemsByName;
     private static bool IsInitialized => _itemsByName != null;
