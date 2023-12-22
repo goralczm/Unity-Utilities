@@ -17,7 +17,7 @@ public class PlayerInteract : MonoBehaviour
                 if (interactable == null)
                     continue;
 
-                interactable.Interact();
+                interactable.Interact(gameObject);
             }
         }
     }

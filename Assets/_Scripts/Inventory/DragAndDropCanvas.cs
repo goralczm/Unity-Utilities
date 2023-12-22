@@ -1,29 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DragAndDropCanvas : Singleton<DragAndDropCanvas>
 {
-    [SerializeField] private Image _draggingImage;
-    [SerializeField] private RectTransform _dragRect;
+    [SerializeField] private InventorySlot _slot;
     
-    public void SetImageAndSize(Sprite newImage, Vector2 size)
+    public void Setup(KeyValuePair<Item, int> item)
     {
-        _draggingImage.sprite = newImage;
-        _dragRect.sizeDelta = size;
+        _slot.ResetSlot();
+        _slot.SetupSlotUi(item.Key, item.Value);
     }
 
     public void ShowImage()
     {
-        _draggingImage.gameObject.SetActive(true);
+        _slot.gameObject.SetActive(true);
     }
 
     public void HideImage()
     {
-        _draggingImage.gameObject.SetActive(false);
+        _slot.gameObject.SetActive(false);
     }
 
     public void SetDraggingPosition(Vector2 position)
     {
-        _draggingImage.transform.position = position;
+        _slot.transform.position = position;
     }
 }

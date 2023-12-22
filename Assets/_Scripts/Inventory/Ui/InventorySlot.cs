@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
+using TMPro;
+using System;
 
 public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
+    public Item Item => _item.Key;
+    public int Quantity => _item.Value;
+
     [Header("Instances")]
     [SerializeField] private Image _icon;
     [SerializeField] private TextMeshProUGUI _amountText;
@@ -17,6 +20,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private BackpackManager _backpackManager;
     private GameManager _gameManager;
+
+    public Action OnSlotChangedHandler;
 
     public void SetupInfo(Inventory newInventory, int slotIndex)
     {
@@ -31,9 +36,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         if (newItem == null)
             return;
 
-        _amountText.SetText(amount.ToString());
+        if (amount == 1)
+            _amountText.SetText("");
+        else
+            _amountText.SetText(amount.ToString());
         _icon.sprite = newItem.icon;
         _icon.enabled = true;
+
+        OnSlotChangedHandler?.Invoke();
     }
 
     public void ResetSlot()
@@ -61,7 +71,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
             if (_backpackManager == null)
                 _backpackManager = BackpackManager.Instance;
 
-            if (_backpackManager.CurrentInventory == null)
+            if (_backpackManager == null || _backpackManager.CurrentInventory == null)
                 return;
 
             FastMoveItems();

@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
     public KeyValuePair<Item, int>[] items;
 
     public delegate void ItemsChangedDelegate();
-    public ItemsChangedDelegate itemsChangedHandler;
+    public ItemsChangedDelegate ItemsChangedHandler;
 
     private void Awake()
     {
@@ -18,6 +18,9 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item newItem, int amount)
     {
+        if (newItem == null)
+            return;
+
         if (amount == 0)
             return;
 
@@ -167,7 +170,7 @@ public class Inventory : MonoBehaviour
 
     private void InvokeOnItemChangedHandler()
     {
-        if (itemsChangedHandler != null)
-            itemsChangedHandler.Invoke();
+        if (ItemsChangedHandler != null)
+            ItemsChangedHandler.Invoke();
     }
 }

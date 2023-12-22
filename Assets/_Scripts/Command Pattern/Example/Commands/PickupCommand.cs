@@ -15,8 +15,7 @@ public class PickupCommand : Command
 
     public override void Execute()
     {
-        _itemPickup.SetInventory(_inventory);
-        _itemPickup.Interact();
+        _itemPickup.Interact(_inventory.gameObject);
     }
 
     public override void Tick()
