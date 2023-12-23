@@ -27,12 +27,4 @@ public class BackpackUi : InventoryUi
     {
         inventory = null;
     }
-
-    public void CloseBackpackIfPlayerIsTooFar()
-    {
-        if (_backpackManager == null)
-            _backpackManager = BackpackManager.Instance;
-
-        _backpackManager.CloseBackpackIfPlayerIsTooFar();
-    }
 }

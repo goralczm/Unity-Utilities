@@ -27,7 +27,6 @@ public class UITweener : MonoBehaviour
 
     private bool _hasSetup;
     private bool _isReversed;
-    private bool _isBusy;
     private RectTransform _rect;
     private CanvasGroup _canvasGroup;
 
@@ -68,27 +67,18 @@ public class UITweener : MonoBehaviour
 
     public void Show()
     {
-        if (_isBusy)
-            return;
-
         _isReversed = false;
         HandleTween();
     }
 
     public void Hide()
     {
-        if (_isBusy)
-            return;
-
         _isReversed = true;
         HandleTween();
     }
 
     public void Toggle()
     {
-        if (_isBusy)
-            return;
-
         _isReversed = !_isReversed;
         HandleTween();
     }
@@ -100,7 +90,6 @@ public class UITweener : MonoBehaviour
         if (!_isReversed)
             gameObject.SetActive(true);
 
-        _isBusy = true;
         switch (animationType)
         {
             case UIAnimationType.Fade:
@@ -129,7 +118,7 @@ public class UITweener : MonoBehaviour
 
     private void EndTween()
     {
-        _isBusy = false;
+        
     }
 
     private void Fade()

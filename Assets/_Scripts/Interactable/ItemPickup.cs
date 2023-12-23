@@ -14,4 +14,9 @@ public class ItemPickup : MonoBehaviour, IInteractable
         requester.GetComponent<Inventory>().AddItem(_item, 1);
         gameObject.SetActive(false);
     }
+
+    public void OutOfRange()
+    {
+        
+    }
 }
