@@ -4,16 +4,17 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private int _capacity;
+    [SerializeField] private int _capacity = 9;
 
-    public KeyValuePair<Item, int>[] items;
+    public List<InventoryItem> items = new List<InventoryItem>();
 
     public delegate void ItemsChangedDelegate();
     public ItemsChangedDelegate ItemsChangedHandler;
 
     private void Awake()
     {
-        items = new KeyValuePair<Item, int>[_capacity];
+        for (int i = 0; i < _capacity; i++)
+            items.Add(new InventoryItem());
     }
 
     public void AddItem(Item newItem, int amount)
@@ -39,12 +40,12 @@ public class Inventory : MonoBehaviour
 
     private int ReturnItemIndexWithFreeSpace(Item item)
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].Key != item)
+            if (items[i].item != item)
                 continue;
 
-            if (items[i].Value == items[i].Key.stackSize)
+            if (items[i].quantity == items[i].item.stackSize)
                 continue;
 
             return i;
@@ -55,13 +56,13 @@ public class Inventory : MonoBehaviour
 
     public void AddItemToExistingSlot(Item newItem, int amount, int foundIndex)
     {
-        int totalItemsAmount = items[foundIndex].Value + amount;
-        items[foundIndex] = new KeyValuePair<Item, int>(newItem, Mathf.Min(items[foundIndex].Key.stackSize, totalItemsAmount));
+        int totalItemsAmount = items[foundIndex].quantity + amount;
+        items[foundIndex] = new InventoryItem(newItem, Mathf.Min(items[foundIndex].item.stackSize, totalItemsAmount));
 
         InvokeOnItemChangedHandler();
 
-        if (totalItemsAmount > items[foundIndex].Key.stackSize)
-            AddItem(newItem, totalItemsAmount - items[foundIndex].Key.stackSize);
+        if (totalItemsAmount > items[foundIndex].item.stackSize)
+            AddItem(newItem, totalItemsAmount - items[foundIndex].item.stackSize);
     }
 
     private void AddItemToEmptySlot(Item newItem, int amount)
@@ -70,7 +71,7 @@ public class Inventory : MonoBehaviour
         {
             int firstEmptySlotIndex = ReturnFirstEmptySlotIndex();
             int overflowAmount = amount - newItem.stackSize;
-            items[firstEmptySlotIndex] = new KeyValuePair<Item, int>(newItem, Mathf.Min(newItem.stackSize, amount));
+            items[firstEmptySlotIndex] = new InventoryItem(newItem, Mathf.Min(newItem.stackSize, amount));
 
             if (overflowAmount > 0)
                 AddItem(newItem, overflowAmount);
@@ -83,9 +84,9 @@ public class Inventory : MonoBehaviour
 
     private int ReturnFirstEmptySlotIndex()
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].Key == null)
+            if (items[i].item == null)
                 return i;
         }
 
@@ -94,21 +95,21 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(Item itemToRemove, int amount)
     {
-        for (int i = items.Length - 1; i >= 0; i--)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
-            if (items[i].Key == itemToRemove)
+            if (items[i].item == itemToRemove)
             {
-                int amountAfterRemove = items[i].Value - amount;
+                int amountAfterRemove = items[i].quantity - amount;
 
                 if (amountAfterRemove <= 0)
                 {
-                    items[i] = new KeyValuePair<Item, int>();
+                    items[i] = new InventoryItem();
 
                     if (amountAfterRemove < 0)
                         RemoveItem(itemToRemove, Mathf.Abs(amountAfterRemove));
                 }
                 else
-                    items[i] = new KeyValuePair<Item, int>(itemToRemove, amountAfterRemove);
+                    items[i] = new InventoryItem(itemToRemove, amountAfterRemove);
                 break;
             }
         }
@@ -118,14 +119,14 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItemFromIndex(int index)
     {
-        items[index] = new KeyValuePair<Item, int>();
+        items[index] = new InventoryItem();
 
         InvokeOnItemChangedHandler();
     }
 
-    public KeyValuePair<Item, int> SwapInventoryItems(KeyValuePair<Item, int> newItem, int indexToSwap)
+    public InventoryItem SwapInventoryItems(InventoryItem newItem, int indexToSwap)
     {
-        KeyValuePair<Item, int> itemToSwap = items[indexToSwap];
+        InventoryItem itemToSwap = items[indexToSwap];
         items[indexToSwap] = newItem;
 
         InvokeOnItemChangedHandler();
@@ -135,16 +136,16 @@ public class Inventory : MonoBehaviour
 
     public void DivideItem(int indexToDivide)
     {
-        if (items[indexToDivide].Value == 1)
+        if (items[indexToDivide].quantity == 1)
             return;
 
         try
         {
             int firstEmptySlotIndex = ReturnFirstEmptySlotIndex();
-            int amountAfterDivision = Mathf.FloorToInt(items[indexToDivide].Value / 2);
+            int amountAfterDivision = Mathf.FloorToInt(items[indexToDivide].quantity / 2);
 
-            items[indexToDivide] = new KeyValuePair<Item, int>(items[indexToDivide].Key, items[indexToDivide].Value - amountAfterDivision);
-            items[firstEmptySlotIndex] = new KeyValuePair<Item, int>(items[indexToDivide].Key, amountAfterDivision);
+            items[indexToDivide] = new InventoryItem(items[indexToDivide].item, items[indexToDivide].quantity - amountAfterDivision);
+            items[firstEmptySlotIndex] = new InventoryItem(items[indexToDivide].item, amountAfterDivision);
         }
         catch
         {
@@ -157,12 +158,12 @@ public class Inventory : MonoBehaviour
     public int CountItemOccurrences(Item item)
     {
         int sum = 0;
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].Key != item)
+            if (items[i].item != item)
                 continue;
 
-            sum += items[i].Value;
+            sum += items[i].quantity;
         }
 
         return sum;
@@ -170,7 +171,6 @@ public class Inventory : MonoBehaviour
 
     private void InvokeOnItemChangedHandler()
     {
-        if (ItemsChangedHandler != null)
-            ItemsChangedHandler.Invoke();
+        ItemsChangedHandler?.Invoke();
     }
 }

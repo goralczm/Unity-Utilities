@@ -1582,6 +1582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _capacity: 9
+  items: []
 --- !u!61 &689874298
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2419,6 +2420,7 @@ GameObject:
   - component: {fileID: 1136107162}
   - component: {fileID: 1136107163}
   - component: {fileID: 1136107164}
+  - component: {fileID: 1136107165}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2565,6 +2567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _capacity: 18
+  items: []
 --- !u!114 &1136107164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2575,6 +2578,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b996d05259694240ab7e183cef5cea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionRadius: 1.5
+--- !u!114 &1136107165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136107157}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7acc451006f75af4784adfc19836981b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionRadius: 1.5
@@ -3587,6 +3603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _capacity: 6
+  items: []
 --- !u!61 &1584576877
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3837,6 +3854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _capacity: 12
+  items: []
 --- !u!61 &1669449651
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using UnityEngine;
 public class BuildingSystem : MonoBehaviour
 {
     [Header("Settings")]
+    public bool useGrid;
     [SerializeField] private bool _centerOnGrid;
 
     [Header("Instances")]
@@ -26,6 +27,9 @@ public class BuildingSystem : MonoBehaviour
     private Vector2 GetCellPos()
     {
         Vector3 mouseWorldPos = MouseInput.MouseWorldPos;
+        if (!useGrid)
+            return mouseWorldPos;
+
         Vector3Int cellPos = _grid.WorldToCell(mouseWorldPos);
 
         if (!_centerOnGrid)

@@ -4,7 +4,7 @@ using UnityEngine;
 public class StartingItems : MonoBehaviour
 {
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private List<Item> _items;
+    [SerializeField] private List<InventoryItem> _items;
 
     private void Start()
     {
@@ -14,7 +14,7 @@ public class StartingItems : MonoBehaviour
         if (_items.Count == 0)
             return;
 
-        foreach (Item item in _items)
-            _inventory.AddItem(item, 1);
+        foreach (InventoryItem item in _items)
+            _inventory.AddItem(item.item, item.quantity);
     }
 }

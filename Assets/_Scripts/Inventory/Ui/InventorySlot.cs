@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
 public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    public Item Item => _item.Key;
-    public int Quantity => _item.Value;
+    public InventoryItem Item { get; private set; }
 
     [Header("Instances")]
     [SerializeField] private Image _icon;
@@ -16,7 +14,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private Inventory _inventory;
     private int _slotIndex;
-    private KeyValuePair<Item, int> _item;
 
     private BackpackManager _backpackManager;
     private GameManager _gameManager;
@@ -31,7 +28,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void SetupSlotUi(Item newItem, int amount)
     {
-        _item = new KeyValuePair<Item, int>(newItem, amount);
+        Item = new InventoryItem(newItem, amount);
 
         if (newItem == null)
             return;
@@ -48,17 +45,17 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void ResetSlot()
     {
-        _item = new KeyValuePair<Item, int>();
+        Item = new InventoryItem();
         _amountText.SetText("");
         _icon.enabled = false;
     }
 
     public void UseItem()
     {
-        if (_item.Key == null)
+        if (Item.item == null)
             return;
 
-        _item.Key.UseItem();
+        Item.item.UseItem();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -91,8 +88,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
             inventoryToMove = _gameManager.PlayerInventory;
         }
 
-        Item itemBeingMoved = _item.Key;
-        int amountBeingMoved = _item.Value;
+        Item itemBeingMoved = Item.item;
+        int amountBeingMoved = Item.quantity;
 
         int totalItemsBeforeMove = inventoryToMove.CountItemOccurrences(itemBeingMoved);
         inventoryToMove.AddItem(itemBeingMoved, amountBeingMoved);
@@ -115,9 +112,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         if (draggedSlot == this)
             return;
 
-        Item draggedItem = draggedSlot._item.Key;
+        Item draggedItem = draggedSlot.Item.item;
 
-        if (!AreItemsSame(draggedItem, _item.Key) || IsSlotFull(draggedSlot) || IsSlotFull(this))
+        if (!AreItemsSame(draggedItem, Item.item) || IsSlotFull(draggedSlot) || IsSlotFull(this))
         {
             SwapInventoryItems(draggedSlot);
             return;
@@ -133,27 +130,27 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private bool IsSlotFull(InventorySlot inventorySlot)
     {
-        if (inventorySlot._item.Key == null)
+        if (inventorySlot.Item.item == null)
             return false;
 
-        return inventorySlot._item.Value == inventorySlot._item.Key.stackSize;
+        return inventorySlot.Item.quantity == inventorySlot.Item.item.stackSize;
     }
 
     private void SwapInventoryItems(InventorySlot draggedSlot)
     {
-        KeyValuePair<Item, int> swappedItem = draggedSlot.SwapItems(_item);
+        InventoryItem swappedItem = draggedSlot.SwapItems(Item);
         SwapItems(swappedItem);
     }
 
-    public KeyValuePair<Item, int> SwapItems(KeyValuePair<Item, int> newItem)
+    public InventoryItem SwapItems(InventoryItem newItem)
     {
         return _inventory.SwapInventoryItems(newItem, _slotIndex);
     }
 
     private void AddDraggedItemToInventory(InventorySlot draggedSlot)
     {
-        Item draggedItem = draggedSlot._item.Key;
-        int draggedAmount = draggedSlot._item.Value;
+        Item draggedItem = draggedSlot.Item.item;
+        int draggedAmount = draggedSlot.Item.quantity;
 
         int totalItemsBeforeAddition = _inventory.CountItemOccurrences(draggedItem);
         _inventory.AddItemToExistingSlot(draggedItem, draggedAmount, _slotIndex);

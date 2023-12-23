@@ -1,14 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DragAndDropCanvas : Singleton<DragAndDropCanvas>
 {
     [SerializeField] private InventorySlot _slot;
     
-    public void Setup(KeyValuePair<Item, int> item)
+    public void Setup(InventoryItem item)
     {
         _slot.ResetSlot();
-        _slot.SetupSlotUi(item.Key, item.Value);
+        _slot.SetupSlotUi(item.item, item.quantity);
     }
 
     public void ShowImage()

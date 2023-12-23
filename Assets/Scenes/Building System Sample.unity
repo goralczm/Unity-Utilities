@@ -404,6 +404,8 @@ GameObject:
   - component: {fileID: 467723024}
   - component: {fileID: 467723023}
   - component: {fileID: 467723022}
+  - component: {fileID: 467723026}
+  - component: {fileID: 467723025}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -477,6 +479,33 @@ Transform:
   m_Father: {fileID: 1932379914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &467723025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467723021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ba7515be9e3704cbf684c38a44ac0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minZoom: 2
+  _maxZoom: 10
+--- !u!114 &467723026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467723021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a177b0b4b8a17b41ad9d9cc7934e41f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dragMouseButton: 0
 --- !u!1 &588284743
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +633,7 @@ GameObject:
   - component: {fileID: 597539303}
   - component: {fileID: 597539305}
   - component: {fileID: 597539304}
+  - component: {fileID: 597539306}
   m_Layer: 0
   m_Name: Building System
   m_TagString: Untagged
@@ -657,9 +687,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2802320b51144f2428656f335b5aad48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useGrid: 1
   _centerOnGrid: 1
   _grid: {fileID: 1379359429}
   _ghostPrefab: {fileID: 4672770644229190655, guid: 1d77fd8f3a185a14b8d8990a886d894b, type: 3}
+--- !u!114 &597539306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597539302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943b4e77c0041aa499d18cf4727c28ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionButtton: 306
+  _invert: 1
 --- !u!1 &813915405
 GameObject:
   m_ObjectHideFlags: 0

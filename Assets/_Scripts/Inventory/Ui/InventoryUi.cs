@@ -38,13 +38,13 @@ public class InventoryUi : MonoBehaviour
     {
         ResetSlots();
 
-        for (int i = 0; i < inventory.items.Length; i++)
+        for (int i = 0; i < inventory.items.Count; i++)
         {
             if (autoSetup && i > _inventorySlots.Count - 1)
                 _inventorySlots.Add(Instantiate(_inventorySlots[0], _inventorySlots[0].transform.parent));
 
             _inventorySlots[i].ResetSlot();
-            _inventorySlots[i].SetupSlotUi(inventory.items[i].Key, inventory.items[i].Value);
+            _inventorySlots[i].SetupSlotUi(inventory.items[i].item, inventory.items[i].quantity);
             _inventorySlots[i].gameObject.SetActive(true);
         }
     }

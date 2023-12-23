@@ -18,7 +18,7 @@ public class InventorySlotTooltip : TooltipTrigger
 
     public void UpdateTooltipInfo()
     {
-        header = _slot.Item.name;
-        content = _slot.Item.description;
+        header = _slot.Item.item.name;
+        content = _slot.Item.item.description;
     }
 }

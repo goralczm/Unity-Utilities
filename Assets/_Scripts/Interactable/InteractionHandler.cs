@@ -35,7 +35,7 @@ public abstract class InteractionHandler : MonoBehaviour
             return;
 
         float distanceFromInteractable = Vector2.Distance(_lastInteractable.Value.position, transform.position);
-        if (distanceFromInteractable > _interactionDistance)
+        if (distanceFromInteractable > Mathf.Max(_interactionDistance, _interactionRadius))
         {
             _lastInteractable.Key.OutOfRange();
             _lastInteractable = new KeyValuePair<IInteractable, Transform>();

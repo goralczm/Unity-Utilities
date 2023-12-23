@@ -7,6 +7,7 @@ public class CommandDrivenBot : CommandProcessor
 
     [Header("Instances")]
     [SerializeField] private Inventory _botInventory;
+    [SerializeField] private RandomInsideRectangle _rectangle;
 
     private Camera _cam;
     private SpriteRenderer _rend;
@@ -125,14 +126,8 @@ public class CommandDrivenBot : CommandProcessor
 
     private void EnqueueRandomDestination()
     {
-        Vector2 randomDestination = GetRandomPosition();
+        Vector2 randomDestination = _rectangle.GetRandomPositionInside();
         EnqueueMove(randomDestination);
-    }
-
-    private Vector2 GetRandomPosition()
-    {
-        return new Vector2(Random.Range(-8f, 8f),
-                           Random.Range(-4f, 4f));
     }
 
     private void OnDrawGizmos()

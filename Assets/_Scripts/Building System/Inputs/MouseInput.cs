@@ -13,5 +13,7 @@ public static class MouseInput
         }
     }
 
+    public static float ScrollWheel => Input.GetAxis("Mouse ScrollWheel");
+
     private static Camera _cam;
 }

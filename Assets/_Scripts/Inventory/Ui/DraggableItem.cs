@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,7 +26,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         _canvasGroup.blocksRaycasts = false;
         DisableItemInfo();
-        KeyValuePair<Item, int> item = new KeyValuePair<Item, int>(_slot.Item, _slot.Quantity);
+        InventoryItem item = new InventoryItem(_slot.Item.item, _slot.Item.quantity);
         _dragCanvas.Setup(item);
         _dragCanvas.ShowImage();
     }
