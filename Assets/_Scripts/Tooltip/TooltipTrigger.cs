@@ -26,17 +26,36 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        _delayTimer = DELAY;
-        _isWaiting = true;
+        ShowTooltip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _isWaiting = false;
-        TooltipSystem.Hide();
+        HideTooltip();
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        HideTooltip();
+    }
+
+    public void OnMouseEnter()
+    {
+        ShowTooltip();
+    }
+
+    private void OnMouseExit()
+    {
+        HideTooltip();
+    }
+
+    private void ShowTooltip()
+    {
+        _delayTimer = DELAY;
+        _isWaiting = true;
+    }
+    
+    private void HideTooltip()
     {
         _isWaiting = false;
         TooltipSystem.Hide();
