@@ -4,13 +4,14 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
+public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public InventoryItem Item { get; private set; }
 
     [Header("Instances")]
     [SerializeField] private Image _icon;
     [SerializeField] private TextMeshProUGUI _amountText;
+    [SerializeField] private GameObject _deleteButton;
 
     private Inventory _inventory;
     private int _slotIndex;
@@ -48,6 +49,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         Item = new InventoryItem();
         _amountText.SetText("");
         _icon.enabled = false;
+        if (_deleteButton != null)
+            _deleteButton.SetActive(false);
     }
 
     public void UseItem()
@@ -56,6 +59,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
             return;
 
         Item.item.UseItem();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Item.item == null)
+            return;
+
+        if (_deleteButton != null)
+            _deleteButton.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (_deleteButton != null)
+            _deleteButton.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -152,7 +170,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         Item draggedItem = draggedSlot.Item.item;
         int draggedAmount = draggedSlot.Item.quantity;
 
-        int totalItemsBeforeAddition = _inventory.CountItemOccurrences(draggedItem);
+        draggedSlot._inventory.RemoveItemFromIndex(draggedSlot._slotIndex);
+        int overflow = _inventory.items[_slotIndex].quantity + draggedAmount - draggedItem.stackSize;
+        if (overflow > 0)
+            draggedSlot._inventory.AddItemToExistingSlot(draggedItem, overflow, draggedSlot._slotIndex);
+
+        _inventory.AddItemToExistingSlot(draggedItem, Mathf.Min(draggedAmount, draggedAmount - overflow), _slotIndex);
+        /*int totalItemsBeforeAddition = _inventory.CountItemOccurrences(draggedItem);
         _inventory.AddItemToExistingSlot(draggedItem, draggedAmount, _slotIndex);
         int totalItemsAfterAddition = _inventory.CountItemOccurrences(draggedItem);
 
@@ -160,6 +184,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         draggedSlot._inventory.RemoveItemFromIndex(draggedSlot._slotIndex);
         if (itemsAccuallyMoved < draggedAmount)
-            draggedSlot._inventory.AddItem(draggedItem, draggedAmount - itemsAccuallyMoved);
+            draggedSlot._inventory.AddItem(draggedItem, draggedAmount - itemsAccuallyMoved);*/
+    }
+
+    public void DeleteItem()
+    {
+        _inventory.RemoveItemFromIndex(_slotIndex);
     }
 }

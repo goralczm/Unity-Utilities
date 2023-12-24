@@ -2,7 +2,7 @@ public class InventorySlotTooltip : TooltipTrigger
 {
     private InventorySlot _slot;
 
-    private void Start()
+    private void Awake()
     {
         _slot = GetComponent<InventorySlot>();
         _slot.OnSlotChangedHandler += UpdateTooltipInfo;

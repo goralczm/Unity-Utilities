@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b108a3fe4280a546a8e14c05ac496fd, type: 3}
-  m_Name: Axe
+  m_Name: Leather
   m_EditorClassIdentifier: 
   components:
-  - item: {fileID: 11400000, guid: b7bca534af321a040941b4e8cc87a279, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: 90844db680307254c98eb515b6f2de06, type: 2}
+  - item: {fileID: 11400000, guid: 7627ad0cf5949ca4581fabde56e0f29b, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: d8c253b978821134ca886ce9cc51559d, type: 2}
     quantity: 1
   outputs:
-  - item: {fileID: 11400000, guid: 3962fddf3caf57f45aee9a0ca23fd21f, type: 2}
+  - item: {fileID: 11400000, guid: b7bca534af321a040941b4e8cc87a279, type: 2}
     quantity: 4

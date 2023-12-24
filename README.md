@@ -1,3 +1,4 @@
 # TODO
-- [ ] Tooltip
-- [ ] Debug Console
+- [ ] Localization
+- [ ] Controller Inputs (New Input System)
+- [ ] Settings

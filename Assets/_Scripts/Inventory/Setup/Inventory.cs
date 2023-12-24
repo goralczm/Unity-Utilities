@@ -57,12 +57,12 @@ public class Inventory : MonoBehaviour
     public void AddItemToExistingSlot(Item newItem, int amount, int foundIndex)
     {
         int totalItemsAmount = items[foundIndex].quantity + amount;
-        items[foundIndex] = new InventoryItem(newItem, Mathf.Min(items[foundIndex].item.stackSize, totalItemsAmount));
+        items[foundIndex] = new InventoryItem(newItem, Mathf.Min(newItem.stackSize, totalItemsAmount));
 
         InvokeOnItemChangedHandler();
 
-        if (totalItemsAmount > items[foundIndex].item.stackSize)
-            AddItem(newItem, totalItemsAmount - items[foundIndex].item.stackSize);
+        if (totalItemsAmount > newItem.stackSize)
+            AddItem(newItem, totalItemsAmount - newItem.stackSize);
     }
 
     private void AddItemToEmptySlot(Item newItem, int amount)
@@ -169,8 +169,25 @@ public class Inventory : MonoBehaviour
         return sum;
     }
 
-    private void InvokeOnItemChangedHandler()
+    public void InvokeOnItemChangedHandler()
     {
         ItemsChangedHandler?.Invoke();
+    }
+
+    public bool CanAdd(Item newItem, int quantity)
+    {
+        foreach (InventoryItem item in items)
+        {
+            if (item.item == null)
+                quantity -= newItem.stackSize;
+
+            if (item.item == newItem)
+                quantity -= newItem.stackSize - item.quantity;
+
+            if (quantity <= 0)
+                return true;
+        }
+
+        return false;
     }
 }
