@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Draggable Inventory Slot Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8965355675373099794, guid: 7c615faf5d5252848ba073bd390eb27d, type: 3}
+      propertyPath: _isDraggable
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c615faf5d5252848ba073bd390eb27d, type: 3}
 --- !u!1 &770682688754655576 stripped

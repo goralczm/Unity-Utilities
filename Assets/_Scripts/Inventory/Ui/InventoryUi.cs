@@ -5,7 +5,8 @@ public class InventoryUi : MonoBehaviour
 {
     [Header("Settings")]
     public Inventory inventory;
-    public bool autoSetup;
+    [SerializeField] private bool autoSetup;
+    [SerializeField] private bool _canDropItems;
 
     [Header("Instances")]
     [SerializeField] private Transform[] _inventorySlotsParents;
@@ -55,6 +56,7 @@ public class InventoryUi : MonoBehaviour
         {
             _inventorySlots[i].ResetSlot();
             _inventorySlots[i].SetupInfo(inventory, i);
+            _inventorySlots[i].canDropItems = _canDropItems;
             _inventorySlots[i].gameObject.SetActive(false);
         }
     }

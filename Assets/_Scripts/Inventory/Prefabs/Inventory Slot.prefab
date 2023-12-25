@@ -303,9 +303,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472e5b184b6597747b38188eddc389aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDropItems: 0
   _icon: {fileID: 2485723205809934609}
   _amountText: {fileID: 4692879130004897743}
-  _deleteButton: {fileID: 8550644837151193360}
+  _deleteButton: {fileID: 7254019192656895202}
 --- !u!1 &8550644837151193360
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,13 +319,14 @@ GameObject:
   - component: {fileID: 9168306849771637839}
   - component: {fileID: 28385473929167517}
   - component: {fileID: 3963687744867070619}
+  - component: {fileID: 7254019192656895202}
   m_Layer: 0
   m_Name: Destroy Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4410772964239055089
 RectTransform:
   m_ObjectHideFlags: 0
@@ -429,8 +431,46 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8965355675373099794}
         m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
-        m_MethodName: DeleteItem
+        m_MethodName: DropItem
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7254019192656895202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550644837151193360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed45fe8ab17a0c4e98e9741a71cbc27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationType: 2
+  easeType: 0
+  duration: 0.1
+  delay: 0
+  loopsCount: 0
+  startReversed: 0
+  startValue: {x: 0, y: 0, z: 0}
+  finalValue: {x: 1, y: 0, z: 0}
+  onShowCompleteCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  onHideCompleteCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8550644837151193360}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

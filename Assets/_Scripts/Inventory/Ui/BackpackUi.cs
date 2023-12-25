@@ -4,8 +4,6 @@ public class BackpackUi : InventoryUi
 {
     [SerializeField] private UITweener _tweener;
 
-    private BackpackManager _backpackManager;
-
     public void ShowBackpack(Backpack backpack)
     {
         if (backpack == inventory)

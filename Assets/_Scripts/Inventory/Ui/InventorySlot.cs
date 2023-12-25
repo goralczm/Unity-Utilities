@@ -8,10 +8,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 {
     public InventoryItem Item { get; private set; }
 
+    [Header("Settings")]
+    public bool canDropItems;
+
     [Header("Instances")]
     [SerializeField] private Image _icon;
     [SerializeField] private TextMeshProUGUI _amountText;
-    [SerializeField] private GameObject _deleteButton;
+    [SerializeField] private UITweener _deleteButton;
 
     private Inventory _inventory;
     private int _slotIndex;
@@ -40,6 +43,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             _amountText.SetText(amount.ToString());
         _icon.sprite = newItem.icon;
         _icon.enabled = true;
+        if (!canDropItems)
+            _deleteButton.gameObject.SetActive(false);
 
         OnSlotChangedHandler?.Invoke();
     }
@@ -50,7 +55,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
         _amountText.SetText("");
         _icon.enabled = false;
         if (_deleteButton != null)
-            _deleteButton.SetActive(false);
+            _deleteButton.Hide();
     }
 
     public void UseItem()
@@ -63,17 +68,20 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!canDropItems)
+            return;
+
         if (Item.item == null)
             return;
 
         if (_deleteButton != null)
-            _deleteButton.SetActive(true);
+            _deleteButton.Show();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_deleteButton != null)
-            _deleteButton.SetActive(false);
+            _deleteButton.Hide();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -120,7 +128,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             _inventory.AddItem(itemBeingMoved, amountBeingMoved - itemsAccuallyMoved);
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null)
             return;
@@ -176,19 +184,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             draggedSlot._inventory.AddItemToExistingSlot(draggedItem, overflow, draggedSlot._slotIndex);
 
         _inventory.AddItemToExistingSlot(draggedItem, Mathf.Min(draggedAmount, draggedAmount - overflow), _slotIndex);
-        /*int totalItemsBeforeAddition = _inventory.CountItemOccurrences(draggedItem);
-        _inventory.AddItemToExistingSlot(draggedItem, draggedAmount, _slotIndex);
-        int totalItemsAfterAddition = _inventory.CountItemOccurrences(draggedItem);
-
-        int itemsAccuallyMoved = totalItemsAfterAddition - totalItemsBeforeAddition;
-
-        draggedSlot._inventory.RemoveItemFromIndex(draggedSlot._slotIndex);
-        if (itemsAccuallyMoved < draggedAmount)
-            draggedSlot._inventory.AddItem(draggedItem, draggedAmount - itemsAccuallyMoved);*/
     }
 
-    public void DeleteItem()
+    public void DropItem()
     {
-        _inventory.RemoveItemFromIndex(_slotIndex);
+        _inventory.DropItemFromSlot(_slotIndex);
     }
 }

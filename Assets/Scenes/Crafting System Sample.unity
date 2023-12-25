@@ -3113,6 +3113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 685814901}
   autoSetup: 0
+  _canDropItems: 1
   _inventorySlotsParents:
   - {fileID: 161076936}
 --- !u!114 &1626368594

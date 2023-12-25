@@ -91,13 +91,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5370072801391685792, guid: dc96733b4272f8c4a858f080b27e5885, type: 3}
+      propertyPath: startReversed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5536371142152355023, guid: dc96733b4272f8c4a858f080b27e5885, type: 3}
       propertyPath: m_Name
       value: Crafting Button
       objectReference: {fileID: 0}
     - target: {fileID: 5928557605050611536, guid: dc96733b4272f8c4a858f080b27e5885, type: 3}
-      propertyPath: _deleteButton
-      value: 
+      propertyPath: _isDraggable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6378468070783096146, guid: dc96733b4272f8c4a858f080b27e5885, type: 3}
       propertyPath: m_IsActive

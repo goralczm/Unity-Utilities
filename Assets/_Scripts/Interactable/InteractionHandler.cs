@@ -31,7 +31,7 @@ public abstract class InteractionHandler : MonoBehaviour
 
     private void HandleOutOfRangeInteractable()
     {
-        if (_lastInteractable.Key == null)
+        if (_lastInteractable.Key == null || _lastInteractable.Value == null)
             return;
 
         float distanceFromInteractable = Vector2.Distance(_lastInteractable.Value.position, transform.position);

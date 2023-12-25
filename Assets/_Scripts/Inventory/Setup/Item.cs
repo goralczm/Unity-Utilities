@@ -13,4 +13,10 @@ public class Item : ScriptableObject
     {
 
     }
+
+    public virtual void OnDrop(Vector2 position)
+    {
+        ItemPickup pickup = Resources.Load<ItemPickup>("Item Pickup");
+        Instantiate(pickup, position, Quaternion.identity).Setup(this);
+    }
 }

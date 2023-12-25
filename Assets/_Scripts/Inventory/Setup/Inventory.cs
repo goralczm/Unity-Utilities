@@ -190,4 +190,13 @@ public class Inventory : MonoBehaviour
 
         return false;
     }
+
+    public void DropItemFromSlot(int slotIndex)
+    {
+        if (items[slotIndex].item == null)
+            return;
+
+        items[slotIndex].item.OnDrop(transform.position);
+        RemoveItemFromIndex(slotIndex);
+    }
 }

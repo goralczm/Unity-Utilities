@@ -7,6 +7,8 @@ public class PickupCommand : Command
     private readonly Inventory _inventory;
     private readonly ItemPickup _itemPickup;
 
+    private Item _item;
+
     public PickupCommand(Inventory inventory, ItemPickup itemPickup)
     {
         _inventory = inventory;
@@ -15,6 +17,7 @@ public class PickupCommand : Command
 
     public override void Execute()
     {
+        _item = _itemPickup.GetItem();
         _itemPickup.Interact(_inventory.gameObject);
     }
 
@@ -25,7 +28,7 @@ public class PickupCommand : Command
 
     public override void Undo()
     {
-        _inventory.RemoveItem(_itemPickup._item, 1);
-        _itemPickup.gameObject.SetActive(true);
+        _inventory.RemoveItem(_item, 1);
+        _item.OnDrop(_inventory.transform.position);
     }
 }
