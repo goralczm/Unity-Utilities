@@ -26,11 +26,6 @@ public class SavableData
         savedDatas[key] = obj;
     }
 
-    public void LoadData()
-    {
-        
-    }
-
     public object GetData(string key)
     {
         if (!savedDatas.ContainsKey(key))
