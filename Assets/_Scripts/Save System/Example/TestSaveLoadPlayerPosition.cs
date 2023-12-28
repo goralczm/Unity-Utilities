@@ -18,7 +18,7 @@ public class TestSaveLoadPlayerPosition : MonoBehaviour
     {
         print("Saving data...");
 
-        SavableData playerData = new SavableData();
+        SaveableData playerData = new SaveableData();
         float[] playerPos = new float[] { _player.position.x, _player.position.y };
         playerData.SaveData("Position", playerPos);
         playerData.SaveToFile("Player");
@@ -28,7 +28,7 @@ public class TestSaveLoadPlayerPosition : MonoBehaviour
     {
         print("Loading data...");
 
-        SavableData playerData = SaveSystem.LoadData("Player") as SavableData;
+        SaveableData playerData = SaveSystem.LoadData("Player") as SaveableData;
         if (playerData == null)
         {
             print("No saved data found!");

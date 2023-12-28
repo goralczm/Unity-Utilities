@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class SavableData
+public class SaveableData
 {
     public Dictionary<string, object> savedDatas;
 
-    public SavableData()
+    public SaveableData()
     {
         savedDatas = new Dictionary<string, object>();
     }

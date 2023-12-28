@@ -14,13 +14,13 @@ public class SliderSetting : SettingsInput
         _slider.value = _defaultValue;
     }
 
-    protected override void SaveData(SettingsInputData data)
+    public override object Save()
     {
-        data.SaveData("Value", _slider.value);
+        return _slider.value;
     }
 
-    public override void Load(SettingsInputData data)
+    public override void Load(object data)
     {
-        _slider.value = (float)data.GetData("Value");
+        _slider.value = (float)data;
     }
 }

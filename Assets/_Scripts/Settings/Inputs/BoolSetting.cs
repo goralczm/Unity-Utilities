@@ -14,13 +14,13 @@ public class BoolSetting : SettingsInput
         _toggle.isOn = _defaultValue;
     }
 
-    protected override void SaveData(SettingsInputData data)
+    public override object Save()
     {
-        data.SaveData("Value", _toggle.isOn);
+        return _toggle.isOn;
     }
 
-    public override void Load(SettingsInputData data)
+    public override void Load(object data)
     {
-        _toggle.isOn = (bool)data.GetData("Value");
+        _toggle.isOn = (bool)data;
     }
 }

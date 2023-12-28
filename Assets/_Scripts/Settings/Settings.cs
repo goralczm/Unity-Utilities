@@ -20,6 +20,9 @@ public class Settings : MonoBehaviour
         for (int i = 0; i < _settingInputsParent.childCount; i++)
         {
             SettingsInput input = _settingInputsParent.GetChild(i).GetComponent<SettingsInput>();
+            if (_settings.ContainsKey(input.name))
+                throw new System.Exception($"Duplicate settings name found! {input.name}");
+
             _settings.Add(input.SettingName, input);
         }
     }
@@ -34,32 +37,27 @@ public class Settings : MonoBehaviour
     [ContextMenu("Save Settings")]
     public void SaveSettings()
     {
-        SettingsInputData[] settingsInputs = new SettingsInputData[_settings.Count];
-        int index = 0;
+        SaveableData settings = new SaveableData();
         foreach (var input in _settings)
-        {
-            settingsInputs[index] = input.Value.Save();
-            index++;
-        }
+            settings.SaveData(input.Key, input.Value.Save());
 
-        SettingsData data = new SettingsData(settingsInputs);
-        SaveSystem.SaveData(data, "Settings");
+        SaveSystem.SaveData(settings, "Settings");
     }
 
     [ContextMenu("Load Settings")]
     private void LoadSettings()
     {
-        SettingsData data = SaveSystem.LoadData("Settings") as SettingsData;
+        SaveableData data = SaveSystem.LoadData("Settings") as SaveableData;
         if (data == null)
             return;
 
-        foreach (SettingsInputData settingsInput in data.settingsInputs)
+        foreach (var savedObj in data.savedDatas)
         {
-            SettingsInput input = GetSettingsInput(settingsInput.settingName);
-            if (input == null)
+            SettingsInput setting = GetSettingsInput(savedObj.Key);
+            if (setting == null)
                 continue;
 
-            input.Load(settingsInput);
+            setting.Load(savedObj.Value);
         }
     }
 
