@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -7,19 +8,23 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Sound Groups")]
     [SerializeField] private SoundGroup[] _soundGroups;
 
+    private Dictionary<string, SoundGroup> _soundGroupsDictionary = new Dictionary<string, SoundGroup>();
+
     protected override void Awake()
     {
         base.Awake();
         foreach (SoundGroup group in _soundGroups)
         {
+            _soundGroupsDictionary.Add(group.name, group);
             foreach (Sound sound in group.sounds)
             {
-                CreateSound(sound, group.mixerGroup);
+                group.AddSoundToDicitonary(sound);
+                CreateSoundInstance(sound, group.mixerGroup);
             }
         }
     }
 
-    private void CreateSound(Sound sound, AudioMixerGroup mixerGroup)
+    private void CreateSoundInstance(Sound sound, AudioMixerGroup mixerGroup)
     {
         sound.source = gameObject.AddComponent<AudioSource>();
         sound.source.clip = sound.clip;
@@ -32,14 +37,13 @@ public class AudioManager : Singleton<AudioManager>
 
     private SoundGroup FindGroup(string groupName)
     {
-        SoundGroup g = Array.Find(_soundGroups, group => group.name == groupName);
-        if (g == null)
+        if (!_soundGroupsDictionary.ContainsKey(groupName))
         {
             Debug.LogError("Sound Group: " + groupName + " not found!");
             return null;
         }
 
-        return g;
+        return _soundGroupsDictionary[groupName];
     }
 
     private Sound FindSound(string groupName, string soundName)
@@ -51,7 +55,7 @@ public class AudioManager : Singleton<AudioManager>
             return null;
         }
 
-        Sound s = Array.Find(g.sounds, sound => sound.name == soundName);
+        Sound s = g.GetSound(soundName);
 
         if (s == null)
         {
