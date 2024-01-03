@@ -23,6 +23,7 @@ public class Settings : MonoBehaviour
             if (_settings.ContainsKey(input.name))
                 throw new System.Exception($"Duplicate settings name found! {input.name}");
 
+            input.Setup();
             _settings.Add(input.SettingName, input);
         }
     }
@@ -45,11 +46,13 @@ public class Settings : MonoBehaviour
     }
 
     [ContextMenu("Load Settings")]
-    private void LoadSettings()
+    public void LoadSettings()
     {
         SaveableData data = SaveSystem.LoadData("Settings") as SaveableData;
         if (data == null)
             return;
+
+        ResetToDefaults();
 
         foreach (var savedObj in data.savedDatas)
         {

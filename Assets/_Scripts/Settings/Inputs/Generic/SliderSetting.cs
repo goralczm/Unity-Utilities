@@ -1,26 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoolSetting : SettingsInput
+public class SliderSetting : SettingsInput
 {
     [Header("Settings")]
-    [SerializeField] private bool _defaultValue;
+    [SerializeField] private float _defaultValue;
 
     [Header("Instances")]
-    [SerializeField] private Toggle _toggle;
+    [SerializeField] protected Slider _slider;
 
     public override void ResetToDefault()
     {
-        _toggle.isOn = _defaultValue;
+        _slider.value = _defaultValue;
     }
 
     public override object Save()
     {
-        return _toggle.isOn;
+        return _slider.value;
     }
 
     public override void Load(object data)
     {
-        _toggle.isOn = (bool)data;
+        _slider.value = (float)data;
     }
 }
