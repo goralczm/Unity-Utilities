@@ -549,8 +549,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8305491124874799542}
-  - component: {fileID: 8305491124874799176}
   - component: {fileID: 8305491124874799177}
+  - component: {fileID: 4245054992730915649}
   m_Layer: 0
   m_Name: Volume Input
   m_TagString: Untagged
@@ -580,32 +580,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 48.989}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8305491124874799176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305491124874799543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &8305491124874799177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,3 +597,32 @@ MonoBehaviour:
   _slider: {fileID: 8305491123969181954}
   _mixer: {fileID: 24100000, guid: 7ca3d5a2fc1d33c4d8a03d8fdace8f35, type: 2}
   _exposedVolumeName: musicVolume
+--- !u!114 &4245054992730915649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305491124874799543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c229763fa82b43046a51263419a2b11b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  fitType: 4
+  rows: 1
+  columns: 2
+  cellSize: {x: 431.17, y: 48.989}
+  spacing: {x: 0, y: 0}
+  fitX: 1
+  fitY: 1
+  squareCell: 0
+  showOnlyVisibleChilds: 0
+  minPanelHeight: 0
+  adjustHeight: 0

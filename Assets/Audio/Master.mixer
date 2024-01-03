@@ -63,8 +63,14 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: f23b35a4ccb9e0f43877c1ce0bc66032
+    name: dialogsVolume
+  - guid: af32780960341f449bce28724bda4fae
+    name: footstepsVolume
   - guid: 666f475283899de43bedf1c0d8c3da1e
     name: musicVolume
+  - guid: b89257216a6993f478909b4e4c3ea71c
+    name: sfxVolume
   m_AudioMixerGroupViews:
   - guids:
     - 5380a0ec54a223044a1eba6a10062452

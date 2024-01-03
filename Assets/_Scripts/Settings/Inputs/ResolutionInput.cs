@@ -49,13 +49,12 @@ public class ResolutionInput : DropdownSetting
 
     public override void ResetToDefault()
     {
-        print(Screen.currentResolution);
+
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution res = _resolutions[resolutionIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
-        print($"Setting resolution to {res}");
     }
 }
