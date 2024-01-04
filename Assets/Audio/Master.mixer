@@ -67,6 +67,8 @@ AudioMixerController:
     name: dialogsVolume
   - guid: af32780960341f449bce28724bda4fae
     name: footstepsVolume
+  - guid: 8a7f04888b272bb4bb865a4a0ff9a065
+    name: masterVolume
   - guid: 666f475283899de43bedf1c0d8c3da1e
     name: musicVolume
   - guid: b89257216a6993f478909b4e4c3ea71c
