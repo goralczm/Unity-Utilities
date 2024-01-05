@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using System.Linq;
 
@@ -8,6 +7,12 @@ public class ResolutionInput : DropdownSetting
     [SerializeField] private int _minWidth, _minHeight;
 
     private List<Resolution> _resolutions = new List<Resolution>();
+
+    public override void RevertLast()
+    {
+        base.RevertLast();
+        settings.ConfirmSetting();
+    }
 
     public override void Setup()
     {
@@ -37,24 +42,17 @@ public class ResolutionInput : DropdownSetting
             }
 
             options.Add(option);
-
-            if (_resolutions[i].width == Screen.currentResolution.width &&
-                _resolutions[i].height == Screen.currentResolution.height)
-                _defaultValue = i;
         }
 
         _dropdown.ClearOptions();
         _dropdown.AddOptions(options);
     }
 
-    public override void ResetToDefault()
-    {
-
-    }
-
     public void SetResolution(int resolutionIndex)
     {
         Resolution res = _resolutions[resolutionIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
+
+        OnValueChanged();
     }
 }

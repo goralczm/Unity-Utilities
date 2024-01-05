@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f6031e7a10df040a6047b813a65fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
   <SettingName>k__BackingField: Bool 1
   _defaultValue: 0
   _toggle: {fileID: 1343978679864998832}

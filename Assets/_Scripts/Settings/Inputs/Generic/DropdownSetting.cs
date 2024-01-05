@@ -9,6 +9,12 @@ public class DropdownSetting : SettingsInput
     [Header("Instances")]
     [SerializeField] protected TMP_Dropdown _dropdown;
 
+    public override void RevertLast()
+    {
+        base.RevertLast();
+        _dropdown.value = (int)_valueHistory.Pop();
+    }
+
     public override void ResetToDefault()
     {
         _dropdown.value = _defaultValue;

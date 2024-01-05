@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7f098268b52fa499e5f8982c0bc5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
   <SettingName>k__BackingField: Dropdown 1
   _defaultValue: 1
   _dropdown: {fileID: 4227858840982391033}

@@ -9,6 +9,12 @@ public class BoolSetting : SettingsInput
     [Header("Instances")]
     [SerializeField] protected Toggle _toggle;
 
+    public override void RevertLast()
+    {
+        base.RevertLast();
+        _toggle.isOn = (bool)_valueHistory.Pop();
+    }
+
     public override void ResetToDefault()
     {
         _toggle.isOn = _defaultValue;

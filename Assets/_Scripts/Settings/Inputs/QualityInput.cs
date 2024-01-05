@@ -15,5 +15,7 @@ public class QualityInput : DropdownSetting
     public void SetQualityLevel(int qualityLevel)
     {
         QualitySettings.SetQualityLevel(qualityLevel);
+
+        OnValueChanged();
     }
 }

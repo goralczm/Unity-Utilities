@@ -1323,6 +1323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6719696537492851538}
   - component: {fileID: 6719696537492851537}
+  - component: {fileID: 2578800312463202407}
   m_Layer: 0
   m_Name: Resolution Input
   m_TagString: Untagged
@@ -1364,11 +1365,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b943fdec0cddb44add1a951344d669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
   <SettingName>k__BackingField: Resolution
-  _defaultValue: 0
+  _confirmation: 1
+  _defaultValue: 2
   _dropdown: {fileID: 6719696536852793469}
   _minWidth: 1024
   _minHeight: 768
+--- !u!114 &2578800312463202407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6719696537492851539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c229763fa82b43046a51263419a2b11b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  fitType: 4
+  rows: 1
+  columns: 2
+  cellSize: {x: 0, y: 100}
+  spacing: {x: 0, y: 0}
+  fitX: 1
+  fitY: 1
+  squareCell: 0
+  showOnlyVisibleChilds: 0
+  minPanelHeight: 0
+  adjustHeight: 0
 --- !u!1 &6719696537550599873
 GameObject:
   m_ObjectHideFlags: 0

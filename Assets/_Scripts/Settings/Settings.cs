@@ -4,6 +4,7 @@ using UnityEngine;
 public class Settings : MonoBehaviour
 {
     [SerializeField] private Transform _settingInputsParent;
+    [SerializeField] private ConfirmationPopup _confirmation;
 
     private Dictionary<string, SettingsInput> _settings = new Dictionary<string, SettingsInput>();
 
@@ -23,6 +24,7 @@ public class Settings : MonoBehaviour
             if (_settings.ContainsKey(input.name))
                 throw new System.Exception($"Duplicate settings name found! {input.name}");
 
+            input.settings = this;
             input.Setup();
             _settings.Add(input.SettingName, input);
         }
@@ -32,17 +34,10 @@ public class Settings : MonoBehaviour
     public void ResetToDefaults()
     {
         foreach (var input in _settings)
+        {
             input.Value.ResetToDefault();
-    }
-
-    [ContextMenu("Save Settings")]
-    public void SaveSettings()
-    {
-        SaveableData settings = new SaveableData();
-        foreach (var input in _settings)
-            settings.SaveData(input.Key, input.Value.Save());
-
-        SaveSystem.SaveData(settings, "Settings");
+            ConfirmSetting();
+        }
     }
 
     [ContextMenu("Load Settings")]
@@ -61,8 +56,21 @@ public class Settings : MonoBehaviour
                 continue;
 
             setting.Load(savedObj.Value);
+            ConfirmSetting();
         }
     }
+
+
+    [ContextMenu("Save Settings")]
+    public void SaveSettings()
+    {
+        SaveableData settings = new SaveableData();
+        foreach (var input in _settings)
+            settings.SaveData(input.Key, input.Value.Save());
+
+        SaveSystem.SaveData(settings, "Settings");
+    }
+
 
     private SettingsInput GetSettingsInput(string name)
     {
@@ -70,5 +78,15 @@ public class Settings : MonoBehaviour
             return null;
 
         return _settings[name];
+    }
+
+    public void ShowConfirmation(SettingsInput input)
+    {
+        _confirmation.Show(input);
+    }
+
+    public void ConfirmSetting()
+    {
+        _confirmation.ForceConfirm();
     }
 }

@@ -9,5 +9,7 @@ public class VolumeInput : SliderSetting
     public void SetVolume(float value)
     {
         _mixer.SetFloat(_exposedVolumeName, value);
+
+        OnValueChanged();
     }
 }

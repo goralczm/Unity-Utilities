@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,12 @@ public class SliderSetting : SettingsInput
 
     [Header("Instances")]
     [SerializeField] protected Slider _slider;
+
+    public override void RevertLast()
+    {
+        base.RevertLast();
+        _slider.value = (float)_valueHistory.Pop();
+    }
 
     public override void ResetToDefault()
     {

@@ -226,7 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e884dcff99d81cb4ca4611317d242deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
   <SettingName>k__BackingField: Fullscreen
+  _confirmation: 0
   _defaultValue: 1
   _toggle: {fileID: 7751503808660746281}
 --- !u!114 &4906817268481218693
