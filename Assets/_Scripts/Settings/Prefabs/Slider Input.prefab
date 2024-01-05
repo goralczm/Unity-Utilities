@@ -675,7 +675,7 @@ MonoBehaviour:
   m_MinValue: -80
   m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: -20
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -811,5 +811,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 0}
   <SettingName>k__BackingField: 'Slider 1 '
+  _confirmation: 0
   _defaultValue: -20
   _slider: {fileID: 7823402192897220504}

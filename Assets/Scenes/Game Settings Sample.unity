@@ -3320,10 +3320,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749669673}
     m_Modifications:
-    - target: {fileID: 6701080190213621128, guid: 0e614fe32f3bbfd4ca4265447d6b5f60, type: 3}
-      propertyPath: _defaultValue
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6701080190213621130, guid: 0e614fe32f3bbfd4ca4265447d6b5f60, type: 3}
       propertyPath: m_Name
       value: Quality Input
@@ -3459,10 +3455,6 @@ PrefabInstance:
     - target: {fileID: 6701080190584391335, guid: 0e614fe32f3bbfd4ca4265447d6b5f60, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8071031265877061533, guid: 0e614fe32f3bbfd4ca4265447d6b5f60, type: 3}
-      propertyPath: cellSize.x
-      value: 432.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e614fe32f3bbfd4ca4265447d6b5f60, type: 3}
@@ -3635,10 +3627,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749669673}
     m_Modifications:
-    - target: {fileID: 4906817268481218693, guid: fc6949add2ae35040ab1394c12835b71, type: 3}
-      propertyPath: cellSize.x
-      value: 431.23
-      objectReference: {fileID: 0}
     - target: {fileID: 7751503808660746280, guid: fc6949add2ae35040ab1394c12835b71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
