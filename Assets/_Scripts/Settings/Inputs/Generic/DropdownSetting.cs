@@ -9,6 +9,16 @@ public class DropdownSetting : SettingsInput
     [Header("Instances")]
     [SerializeField] protected TMP_Dropdown _dropdown;
 
+    public override void PreviousOption()
+    {
+        _dropdown.value = Mathf.Clamp(_dropdown.value - 1, 0, _dropdown.options.Count - 1);
+    }
+
+    public override void NextOption()
+    {
+        _dropdown.value = Mathf.Clamp(_dropdown.value + 1, 0, _dropdown.options.Count - 1);
+    }
+
     public override void RevertLast()
     {
         base.RevertLast();

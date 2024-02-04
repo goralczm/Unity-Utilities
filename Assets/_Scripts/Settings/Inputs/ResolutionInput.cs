@@ -44,6 +44,8 @@ public class ResolutionInput : DropdownSetting
             options.Add(option);
         }
 
+        _resolutions.Reverse();
+
         _dropdown.ClearOptions();
         _dropdown.AddOptions(options);
     }

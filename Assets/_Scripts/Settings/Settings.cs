@@ -1,8 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Settings : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private UnityEvent _onSetupDone;
+
+    [Header("Instances")]
     [SerializeField] private Transform _settingInputsParent;
     [SerializeField] private ConfirmationPopup _confirmation;
 
@@ -13,14 +18,19 @@ public class Settings : MonoBehaviour
         AddSettingsInput();
         ResetToDefaults();
         LoadSettings();
+
+        _onSetupDone?.Invoke();
     }
 
     private void AddSettingsInput()
     {
         _settings.Clear();
-        for (int i = 0; i < _settingInputsParent.childCount; i++)
+
+        SettingsInput[] foundInputs = GetComponentsInChildren<SettingsInput>();
+        for (int i = 0; i < foundInputs.Length; i++)
         {
-            SettingsInput input = _settingInputsParent.GetChild(i).GetComponent<SettingsInput>();
+            SettingsInput input = foundInputs[i];
+
             if (_settings.ContainsKey(input.name))
                 throw new System.Exception($"Duplicate settings name found! {input.name}");
 

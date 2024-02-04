@@ -9,6 +9,16 @@ public class BoolSetting : SettingsInput
     [Header("Instances")]
     [SerializeField] protected Toggle _toggle;
 
+    public override void PreviousOption()
+    {
+        _toggle.isOn = !_toggle.isOn;
+    }
+
+    public override void NextOption()
+    {
+        _toggle.isOn = !_toggle.isOn;
+    }
+
     public override void RevertLast()
     {
         base.RevertLast();

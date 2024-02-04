@@ -16,6 +16,9 @@ public abstract class SettingsInput : MonoBehaviour
     public abstract object Save();
     public abstract void Load(object data);
 
+    public abstract void PreviousOption();
+    public abstract void NextOption();
+
     public virtual void RevertLast()
     {
         _valueHistory.Pop(); // Skip first element, to get last value before confirmation

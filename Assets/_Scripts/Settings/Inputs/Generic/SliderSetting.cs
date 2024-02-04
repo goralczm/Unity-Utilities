@@ -10,6 +10,16 @@ public class SliderSetting : SettingsInput
     [Header("Instances")]
     [SerializeField] protected Slider _slider;
 
+    public override void PreviousOption()
+    {
+        _slider.value -= 1;
+    }
+
+    public override void NextOption()
+    {
+        _slider.value += 1;
+    }
+
     public override void RevertLast()
     {
         base.RevertLast();
