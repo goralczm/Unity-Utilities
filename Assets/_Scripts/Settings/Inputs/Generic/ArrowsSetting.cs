@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ArrowsInput : SettingsInput
+public class ArrowsSetting : SettingsInput
 {
     [Header("Settings")]
     [SerializeField] private List<string> _options = new List<string>() { "Option A", "Option B", "Option C" };

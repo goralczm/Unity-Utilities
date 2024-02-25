@@ -11,7 +11,7 @@ public class ResolutionInput : DropdownSetting
     public override void RevertLast()
     {
         base.RevertLast();
-        settings.ConfirmSetting();
+        _settings.ConfirmSetting();
     }
 
     public override void Setup()

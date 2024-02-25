@@ -215,9 +215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b943fdec0cddb44add1a951344d669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 0}
   <SettingName>k__BackingField: Resolution
-  _confirmation: 1
+  _tooltipCover: {fileID: 0}
+  _tooltipDescription: 
+  _confirmOnChange: 1
   _defaultValue: 2
   _dropdown: {fileID: 3155997613537864271}
   _minWidth: 1024

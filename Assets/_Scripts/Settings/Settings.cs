@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Settings : MonoBehaviour
     [Header("Instances")]
     [SerializeField] private Transform _settingInputsParent;
     [SerializeField] private ConfirmationPopup _confirmation;
+    [SerializeField] private SettingsTooltip _tooltip;
 
     private Dictionary<string, SettingsInput> _settings = new Dictionary<string, SettingsInput>();
 
@@ -34,13 +36,12 @@ public class Settings : MonoBehaviour
             if (_settings.ContainsKey(input.name))
                 throw new System.Exception($"Duplicate settings name found! {input.name}");
 
-            input.settings = this;
+            input.SetSettings(this);
             input.Setup();
             _settings.Add(input.SettingName, input);
         }
     }
 
-    [ContextMenu("Reset Settings")]
     public void ResetToDefaults()
     {
         foreach (var input in _settings)
@@ -50,7 +51,6 @@ public class Settings : MonoBehaviour
         }
     }
 
-    [ContextMenu("Load Settings")]
     public void LoadSettings()
     {
         SaveableData data = SaveSystem.LoadData("Settings") as SaveableData;
@@ -71,7 +71,6 @@ public class Settings : MonoBehaviour
     }
 
 
-    [ContextMenu("Save Settings")]
     public void SaveSettings()
     {
         SaveableData settings = new SaveableData();
@@ -98,5 +97,12 @@ public class Settings : MonoBehaviour
     public void ConfirmSetting()
     {
         _confirmation.ForceConfirm();
+    }
+
+    public void ShowTooltip(SettingsInput input)
+    {
+        _tooltip.SetCover(input.GetTooltipCoverSprite());
+        _tooltip.SetSettingName(input.name);
+        _tooltip.SetDescription(input.GetTooltipDescription());
     }
 }

@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6435210114156357591}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8242813593184194540
 MonoBehaviour:
@@ -85,11 +85,72 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1380446242353280874}
   - {fileID: 7060560982726555733}
   - {fileID: 7433689153058957055}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5273937699802740774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1380446242353280874}
+  - component: {fileID: 7951707517654024315}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1380446242353280874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273937699802740774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6435210114156357591}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7951707517654024315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273937699802740774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b391ea133546f434d8398b4f331e1902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundGroups:
+  - name: Music
+    sounds:
+    - name: Main Theme
+      clip: {fileID: 8300000, guid: 8f8e6e70c7a0f504b82a8288169aae5e, type: 3}
+      volume: 0.2
+      pitch: 1
+      loop: 1
+      source: {fileID: 0}
+    - name: Main Theme
+      clip: {fileID: 8300000, guid: bc89b4276da290141a5da8d0e0601cdb, type: 3}
+      volume: 0.2
+      pitch: 1
+      loop: 1
+      source: {fileID: 0}
+    mixerGroup: {fileID: -1520496772227684609, guid: 7ca3d5a2fc1d33c4d8a03d8fdace8f35, type: 2}
 --- !u!1 &7589235476504794448
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +184,7 @@ RectTransform:
   m_Children:
   - {fileID: 9084805209497192572}
   m_Father: {fileID: 6435210114156357591}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

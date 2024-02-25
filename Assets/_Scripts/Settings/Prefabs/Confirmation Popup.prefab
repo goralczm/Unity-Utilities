@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationType: 2
   easeType: 1
-  duration: 0.1
+  duration: 0.2
   delay: 0
   loopsCount: 0
   startReversed: 0

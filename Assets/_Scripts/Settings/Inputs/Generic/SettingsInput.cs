@@ -1,35 +1,45 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public abstract class SettingsInput : MonoBehaviour
+public abstract class SettingsInput : MonoBehaviour, IPointerEnterHandler
 {
-    [HideInInspector] public Settings settings;
-
     [field: SerializeField] public string SettingName { get; protected set; }
-    [SerializeField] private bool _confirmation;
+
+    [SerializeField] private Sprite _tooltipCover;
+    [SerializeField, TextArea(5, 5)] private string _tooltipDescription;
+    [SerializeField] private bool _confirmOnChange;
 
     protected Stack<object> _valueHistory = new Stack<object>();
+    protected Settings _settings;
 
     public virtual void Setup() { }
     public abstract void ResetToDefault();
     public abstract object Save();
     public abstract void Load(object data);
-
     public abstract void PreviousOption();
     public abstract void NextOption();
 
+    public void SetSettings(Settings settings)
+    {
+        _settings = settings;
+    }
+    public Sprite GetTooltipCoverSprite() => _tooltipCover;
+    public string GetTooltipDescription() => _tooltipDescription;
+
     public virtual void RevertLast()
     {
-        _valueHistory.Pop(); // Skip first element, to get last value before confirmation
+        // Skip first element, to get last value before confirmation
+        _valueHistory.Pop();
 
-        if (_confirmation)
-            settings.ConfirmSetting();
+        if (_confirmOnChange)
+            _settings.ConfirmSetting();
     }
 
     public void OnValueChanged()
     {
-        if (_confirmation)
+        if (_confirmOnChange)
             NotifyConfirmation();
 
         SaveLastValue();
@@ -42,6 +52,11 @@ public abstract class SettingsInput : MonoBehaviour
 
     public void NotifyConfirmation()
     {
-        settings.ShowConfirmation(this);
+        _settings.ShowConfirmation(this);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _settings.ShowTooltip(this);
     }
 }

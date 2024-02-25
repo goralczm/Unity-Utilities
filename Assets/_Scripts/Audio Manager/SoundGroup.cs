@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine.Audio;
 
+/// <summary>
+/// Represents a sound group along with mixer group and cached sounds associated with this group.
+/// </summary>
 [System.Serializable]
 public class SoundGroup
 {
@@ -10,16 +13,26 @@ public class SoundGroup
 
     private Dictionary<string, Sound> _sounds = new Dictionary<string, Sound>();
 
+    /// <summary>
+    /// Caches the provided <see cref="Sound"/>.
+    /// </summary>
+    /// <param name="sound">The sound to be cached.</param>
     public void AddSoundToDicitonary(Sound sound)
     {
         _sounds.Add(sound.name, sound);
     }
 
-    public Sound GetSound(string name)
+    /// <summary>
+    /// Retrieves the cached sound from dictionary based on the provided sound name.
+    /// </summary>
+    /// <param name="soundName">The sound name.</param>
+    /// <returns>The associated <see cref="Sound"/>.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown when the requested sound name is not found in the cache.</exception>
+    public Sound GetSound(string soundName)
     {
-        if (!_sounds.ContainsKey(name))
-            return null;
+        if (!_sounds.ContainsKey(soundName))
+            throw new KeyNotFoundException($"{name}: {soundName} could not be found!");
 
-        return _sounds[name];
+        return _sounds[soundName];
     }
 }

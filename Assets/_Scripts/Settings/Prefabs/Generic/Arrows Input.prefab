@@ -237,9 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ddf951d0493c143b5b53cc528a9892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 0}
   <SettingName>k__BackingField: Arrows 1
-  _confirmation: 0
+  _tooltipCover: {fileID: 0}
+  _tooltipDescription: 
+  _confirmOnChange: 0
   _options:
   - Option A
   - Option B

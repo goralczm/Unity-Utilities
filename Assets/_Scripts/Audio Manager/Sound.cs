@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Represents a sound clip along with its properties such as volume, pitch, and looping behavior.
+/// </summary>
 [System.Serializable]
 public class Sound
 {
