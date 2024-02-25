@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities.Utilities.Input;
 
 public class CameraScroll : MonoBehaviour
 {

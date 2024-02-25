@@ -1,0 +1,18 @@
+{
+    "name": "Inventory.Demo",
+    "rootNamespace": "",
+    "references": [
+        "GUID:16cf8a9cd65edd541810f1a17d98e34d",
+        "GUID:6be56e4ff8593474eb2c5df98c572562",
+        "GUID:d326825bc4df8b74197416230785c48f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

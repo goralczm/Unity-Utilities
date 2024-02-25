@@ -1,0 +1,16 @@
+{
+    "name": "CraftingSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:16cf8a9cd65edd541810f1a17d98e34d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

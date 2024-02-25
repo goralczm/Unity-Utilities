@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities.Utilities.UI.Texts;
 
 public class SliderValueText : ValueText
 {

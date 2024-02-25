@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Set of functions accessible from any class
-/// </summary>
-public static class Helpers
+namespace Utilities.Utilities
 {
-    public static void DestroyChildren(this UnityEngine.Transform t)
+    /// <summary>
+    /// Set of helper functions accessible from any class.
+    /// </summary>
+    public static class Helpers
     {
-        foreach (UnityEngine.Transform child in t) Object.Destroy(child.gameObject);
-    }
+        public static void DestroyChildren(this Transform t)
+        {
+            for (int i = t.childCount - 1; i >= 0; i--)
+                Object.Destroy(t.GetChild(i));
+        }
 
-    public static void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        public static void RestartLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

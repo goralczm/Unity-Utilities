@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities.Utilities.Input;
 
 [RequireComponent(typeof(BuildingSystem))]
 public class BuildingSystemInput : MonoBehaviour
