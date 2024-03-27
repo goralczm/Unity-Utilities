@@ -1,21 +1,36 @@
 using UnityEngine;
 using Utilities.Utilities.Input;
 
-public class CameraScroll : MonoBehaviour
+namespace Utilities.CameraMovement
 {
-    [SerializeField] private float _minZoom = 2f, _maxZoom = 10f;
-    
-    private Camera _cam;
-    
-    private void Awake()
+    /// <summary>
+    /// Handles the scrolling
+    /// </summary>
+    public class CameraScroll : MonoBehaviour
     {
-        _cam = Camera.main;
-    }
+        [Header("Settings")]
+        [SerializeField, Range(1f, 10f)] private float _strength;
+        [SerializeField, Range(0f, 1f)] private float _smootheness = 2f;
+        [SerializeField] private float _minZoom = 2f, _maxZoom = 10f;
 
-    private void Update()
-    {
-        float newCameraSize = _cam.orthographicSize - MouseInput.ScrollWheel * 10f;
-        newCameraSize = Mathf.Clamp(newCameraSize, _minZoom, _maxZoom);
-        _cam.orthographicSize = newCameraSize;
+        private Camera _cam;
+        private float _targetCamSize;
+
+        private void Awake()
+        {
+            _cam = Camera.main;
+            _targetCamSize = _cam.orthographicSize;
+        }
+
+        private void Update()
+        {
+            _targetCamSize = _targetCamSize - MouseInput.ScrollWheel * _strength;
+            _targetCamSize = Mathf.Clamp(_targetCamSize, _minZoom, _maxZoom);
+
+            if (_smootheness == 0)
+                _cam.orthographicSize = _targetCamSize;
+            else
+                _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, _targetCamSize, Time.deltaTime * (1 / _smootheness));
+        }
     }
 }

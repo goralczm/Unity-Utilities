@@ -2,42 +2,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 
-/// <summary>
-/// Represents a sound group along with mixer group and cached sounds associated with this group.
-/// </summary>
-[System.Serializable]
-public class SoundGroup
+namespace Utilities.AudioSystem
 {
-    public string name;
-    public Sound[] sounds;
-    public AudioMixerGroup mixerGroup;
-
-    private Dictionary<string, Sound> _sounds = new Dictionary<string, Sound>();
-
     /// <summary>
-    /// Caches the provided <see cref="Sound"/>.
+    /// Represents a sound group along with mixer group and cached sounds associated with this group.
     /// </summary>
-    /// <param name="sound">The sound to be cached.</param>
-    /// <exception cref="ArgumentException">Thrown when sound name already exists in the cached dictionary.</exception>
-    public void AddSoundToDicitonary(Sound sound)
+    [System.Serializable]
+    public class SoundGroup
     {
-        if (_sounds.ContainsKey(sound.name))
-            throw new ArgumentException($"{sound.name} already exists in {name} sound group!");
+        public string name;
+        public Sound[] sounds;
+        public AudioMixerGroup mixerGroup;
 
-        _sounds.Add(sound.name, sound);
-    }
+        private Dictionary<string, Sound> _sounds = new Dictionary<string, Sound>();
 
-    /// <summary>
-    /// Retrieves the cached sound from dictionary based on the provided sound name.
-    /// </summary>
-    /// <param name="soundName">The sound name.</param>
-    /// <returns>The associated <see cref="Sound"/>.</returns>
-    /// <exception cref="KeyNotFoundException">Thrown when the requested sound name is not found in the cache.</exception>
-    public Sound GetSound(string soundName)
-    {
-        if (!_sounds.ContainsKey(soundName))
-            throw new KeyNotFoundException($"{name}: {soundName} could not be found!");
+        /// <summary>
+        /// Caches the provided <see cref="Sound"/>.
+        /// </summary>
+        /// <param name="sound">The sound to be cached.</param>
+        /// <exception cref="ArgumentException">Thrown when sound name already exists in the cached dictionary.</exception>
+        public void AddSoundToDicitonary(Sound sound)
+        {
+            if (_sounds.ContainsKey(sound.name))
+                throw new ArgumentException($"{sound.name} already exists in {name} sound group!");
 
-        return _sounds[soundName];
+            _sounds.Add(sound.name, sound);
+        }
+
+        /// <summary>
+        /// Retrieves the cached sound from dictionary based on the provided sound name.
+        /// </summary>
+        /// <param name="soundName">The sound name.</param>
+        /// <returns>The associated <see cref="Sound"/>.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the requested sound name is not found in the cache.</exception>
+        public Sound GetSound(string soundName)
+        {
+            if (!_sounds.ContainsKey(soundName))
+                throw new KeyNotFoundException($"{name}: {soundName} could not be found!");
+
+            return _sounds[soundName];
+        }
     }
 }

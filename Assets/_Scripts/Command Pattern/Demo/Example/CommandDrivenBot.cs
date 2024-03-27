@@ -1,5 +1,5 @@
 using UnityEngine;
-using Utilities.Utilities;
+using Utilities.Utilities.Shapes;
 
 public class CommandDrivenBot : CommandProcessor
 {
@@ -8,7 +8,7 @@ public class CommandDrivenBot : CommandProcessor
 
     [Header("Instances")]
     [SerializeField] private Inventory _botInventory;
-    [SerializeField] private RandomInsideRectangle _rectangle;
+    [SerializeField] private Rectangle _rectangle;
 
     private Camera _cam;
     private SpriteRenderer _rend;

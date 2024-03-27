@@ -1,37 +1,39 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RecipeButton : MonoBehaviour
+namespace Utilities.CraftingSystem.UI
 {
-    [Header("Settings")]
-    [SerializeField] private CraftingRecipe _recipe;
-
-    [Header("Instances")]
-    [SerializeField] private CraftingSystem _craftingSystem;
-    [SerializeField] private InventorySlot _slotPrefab;
-    [SerializeField] private GameObject _separatorPrefab;
-
-    private void Start()
+    public class RecipeButton : MonoBehaviour
     {
-        Setup(_recipe);
-    }
+        [Header("Settings")]
+        [SerializeField] private CraftingRecipe _recipe;
 
-    public void Setup(CraftingRecipe recipe)
-    {
-        _recipe = recipe;
-        foreach (InventoryItem component in recipe.components)
-            Instantiate(_slotPrefab, transform).SetupSlotUi(component.item, component.quantity);
+        [Header("Instances")]
+        [SerializeField] private CraftingSystem _craftingSystem;
+        [SerializeField] private InventorySlot _slotPrefab;
+        [SerializeField] private GameObject _separatorPrefab;
 
-        Instantiate(_separatorPrefab, transform);
+        private void Start()
+        {
+            Setup(_recipe);
+        }
 
-        foreach (InventoryItem output in recipe.outputs)
-            Instantiate(_slotPrefab, transform).SetupSlotUi(output.item, output.quantity);
+        public void Setup(CraftingRecipe recipe)
+        {
+            _recipe = recipe;
+            foreach (InventoryItem component in recipe.components)
+                Instantiate(_slotPrefab, transform).SetupSlotUi(component.item, component.quantity);
 
-        transform.GetChild(0).SetAsLastSibling();
-    }
+            Instantiate(_separatorPrefab, transform);
 
-    public void Craft()
-    {
-        _craftingSystem.TryCraftRecipe(_recipe);
+            foreach (InventoryItem output in recipe.outputs)
+                Instantiate(_slotPrefab, transform).SetupSlotUi(output.item, output.quantity);
+
+            transform.GetChild(0).SetAsLastSibling();
+        }
+
+        public void Craft()
+        {
+            _craftingSystem.TryCraftRecipe(_recipe);
+        }
     }
 }

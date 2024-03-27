@@ -648,7 +648,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followSpeed: 3
   _offset: {x: 0, y: 0}
-  _inputHeadsupStrength: {x: 0, y: 0}
+  _horizontalHeadsUpStrength: 0
+  _verticalHeadsUpStrength: 0
   _risingVelocityHeadsupStrength: 0
   _fallingVelocityHeadsupStrength: 0
   _target: {fileID: 1136107161}
@@ -664,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6243ae05182b7478513bf040ac0791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smoothness: 3
+  _smoothness: 0.5
   _mouseFavoritism: 0.05
   _maxAcceleration: 10
   _offset: {x: 0, y: 0}
