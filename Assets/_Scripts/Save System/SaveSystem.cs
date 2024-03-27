@@ -2,45 +2,68 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class SaveSystem
+namespace Utilities.SaveSystem
 {
-    public const string EXTENSION = ".ffg";
-
-    public static object LoadData(string fileName)
+    /// <summary>
+    /// Handles saving and retrieving custom classes to/from a file.
+    /// </summary>
+    public static class SaveSystem
     {
-        string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
+        public const string EXTENSION = ".ffg";
 
-        if (File.Exists(path))
+        /// <summary>
+        /// Retrieves the saved data based on the file name.
+        /// </summary>
+        /// <param name="fileName">The save file name.</param>
+        /// <returns>
+        /// The retrieved data as <see cref="object"/>.
+        /// <see cref="null"/> if the file has not been found.
+        /// </returns>
+        public static object LoadData(string fileName)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            object data = formatter.Deserialize(stream);
+            string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
 
-            stream.Close();
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+                object data = formatter.Deserialize(stream);
 
-            return data;
+                stream.Close();
+
+                return data;
+            }
+            else
+                return null;
         }
-        else
-            return null;
-    }
 
-    public static void SaveData(object dataScript, string fileName)
-    {
-        string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
+        /// <summary>
+        /// Saves the class to a file.
+        /// </summary>
+        /// <param name="dataScript">The class to be saved.</param>
+        /// <param name="fileName">The file name where the data will be saved.</param>
+        public static void SaveData(object dataScript, string fileName)
+        {
+            string path = Application.persistentDataPath + "/" + fileName + EXTENSION;
 
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
-        object data = dataScript;
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Create);
+            object data = dataScript;
 
-        formatter.Serialize(stream, data);
-        stream.Close();
-    }
+            formatter.Serialize(stream, data);
+            stream.Close();
+        }
 
-    public static void DeleteData(string fileName)
-    {
-        string path = Application.persistentDataPath + "/" + fileName + ".def";
+        /// <summary>
+        /// Deletes the saved data if exists.
+        /// </summary>
+        /// <param name="fileName">The file name to be deleted.</param>
+        public static void DeleteData(string fileName)
+        {
+            string path = Application.persistentDataPath + "/" + fileName + ".def";
 
-        if (File.Exists(path))
-            File.Delete(path);
+            if (File.Exists(path))
+                File.Delete(path);
+        }
     }
 }

@@ -1,49 +1,65 @@
 using System;
 
-public class DebugCommandBase
+namespace Utilities.Debug
 {
-    private string _commandId;
-    private string _commandDescription;
-    private string _commandFormat;
-
-    public string commandId {  get { return _commandId; } }
-    public string commandDescription { get { return _commandDescription; } }
-    public string commandFormat { get { return _commandFormat; } }
-
-    public DebugCommandBase(string id, string description, string format)
+    /// <summary>
+    /// Stores the unique ID, description and format of the command.
+    /// </summary>
+    public abstract class DebugCommandBase
     {
-        _commandId = id;
-        _commandDescription = description;
-        _commandFormat = format;
-    }
-}
+        public string CommandID => _commandId;
+        public string CommandDescription => _commandDescription;
+        public string CommandFormat => _commandFormat;
 
-public class DebugCommand : DebugCommandBase
-{
-    private Action command;
+        private string _commandId;
+        private string _commandDescription;
+        private string _commandFormat;
 
-    public DebugCommand(string id, string description, string format, Action command) : base (id, description, format)
-    {
-        this.command = command;
+        public DebugCommandBase(string id, string description, string format)
+        {
+            _commandId = id;
+            _commandDescription = description;
+            _commandFormat = format;
+        }
     }
 
-    public void Invoke()
+    /// <summary>
+    /// Extends the <see cref="DebugCommandBase"/> with storing an action that can be invoked.
+    /// </summary>
+    public class DebugCommand : DebugCommandBase
     {
-        command.Invoke();
+        private Action _command;
+
+        public DebugCommand(string id, string description, string format, Action command) : base(id, description, format)
+        {
+            _command = command;
+        }
+
+        /// <summary>
+        /// Invokes the stored action.
+        /// </summary>
+        public void Invoke()
+        {
+            _command.Invoke();
+        }
     }
-}
 
-public class DebugCommand<T1> : DebugCommandBase
-{
-    private Action<T1> command;
-
-    public DebugCommand(string id, string description, string format, Action<T1> command) : base(id, description, format)
+    /// <summary>
+    /// Generic extension of the <see cref="DebugCommandBase"/> allowing passing a parameter to the command.
+    /// </summary>
+    /// <typeparam name="T1">The generic type of command parameter.</typeparam>
+    public class DebugCommand<T1> : DebugCommandBase
     {
-        this.command = command;
-    }
+        private Action<T1> command;
 
-    public void Invoke(T1 value)
-    {
-        command.Invoke(value);
+        public DebugCommand(string id, string description, string format, Action<T1> command) : base(id, description, format)
+        {
+            this.command = command;
+        }
+
+        public void Invoke(T1 value)
+        {
+            command.Invoke(value);
+        }
     }
 }
