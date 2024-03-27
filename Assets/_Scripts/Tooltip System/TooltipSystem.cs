@@ -9,6 +9,9 @@ public class TooltipSystem : Singleton<TooltipSystem>
 
     public static void Show(string content, string header = "")
     {
+        if (Input.GetMouseButton(0))
+            return;
+
         Instance._tooltip.SetText(content, header);
         Instance._tweener.Show();
     }
