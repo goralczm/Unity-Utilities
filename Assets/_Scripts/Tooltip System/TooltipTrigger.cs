@@ -1,63 +1,61 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+namespace Utilities.TooltipSystem
 {
-    public string header;
-    [TextArea(7, 7)] public string content;
-
-    private const float DELAY = .5f;
-
-    private float _delayTimer;
-    private bool _isWaiting;
-
-    public virtual void Update()
+    public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        if (_isWaiting)
+        public string header;
+        [TextArea(7, 7)] public string content;
+
+        private const float DELAY = .5f;
+
+        private float _delayTimer;
+        private bool _isWaiting;
+
+        public virtual void Update()
         {
-            _delayTimer -= Time.deltaTime;
-            if (_delayTimer <= 0)
+            if (_isWaiting)
             {
-                TooltipSystem.Show(content, header);
-                _isWaiting = false;
+                _delayTimer -= Time.deltaTime;
+                if (_delayTimer <= 0)
+                {
+                    TooltipSystem.Show(content, header);
+                    _isWaiting = false;
+                }
             }
         }
-    }
 
-    public virtual void OnPointerEnter(PointerEventData eventData)
-    {
-        ShowTooltip();
-    }
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+            ShowTooltip();
+        }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        HideTooltip();
-    }
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            HideTooltip();
+        }
 
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        HideTooltip();
-    }
+        public void OnMouseEnter()
+        {
+            ShowTooltip();
+        }
 
-    public void OnMouseEnter()
-    {
-        ShowTooltip();
-    }
+        private void OnMouseExit()
+        {
+            HideTooltip();
+        }
 
-    private void OnMouseExit()
-    {
-        HideTooltip();
-    }
+        private void ShowTooltip()
+        {
+            _delayTimer = DELAY;
+            _isWaiting = true;
+        }
 
-    private void ShowTooltip()
-    {
-        _delayTimer = DELAY;
-        _isWaiting = true;
-    }
-    
-    private void HideTooltip()
-    {
-        _isWaiting = false;
-        TooltipSystem.Hide();
+        private void HideTooltip()
+        {
+            _isWaiting = false;
+            TooltipSystem.Hide();
+        }
     }
 }

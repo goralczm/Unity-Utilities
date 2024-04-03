@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 namespace Utilities.SaveSystem
 {
@@ -27,7 +28,16 @@ namespace Utilities.SaveSystem
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 FileStream stream = new FileStream(path, FileMode.Open);
-                object data = formatter.Deserialize(stream);
+
+                object data = null;
+                try
+                {
+                    data = formatter.Deserialize(stream);
+                }
+                catch
+                {
+
+                }
 
                 stream.Close();
 

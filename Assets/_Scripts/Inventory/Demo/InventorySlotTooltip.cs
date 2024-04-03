@@ -1,3 +1,5 @@
+using Utilities.TooltipSystem;
+
 public class InventorySlotTooltip : TooltipTrigger
 {
     private InventorySlot _slot;

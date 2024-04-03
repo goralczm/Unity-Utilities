@@ -2,22 +2,25 @@ using UnityEngine;
 using Utilities.Utilities.Core;
 using Utilities.Utilities.UI;
 
-public class TooltipSystem : Singleton<TooltipSystem>
+namespace Utilities.TooltipSystem
 {
-    [SerializeField] private Tooltip _tooltip;
-    [SerializeField] private UITweener _tweener;
-
-    public static void Show(string content, string header = "")
+    public class TooltipSystem : Singleton<TooltipSystem>
     {
-        if (Input.GetMouseButton(0))
-            return;
+        [SerializeField] private Tooltip _tooltip;
+        [SerializeField] private UITweener _tweener;
 
-        Instance._tooltip.SetText(content, header);
-        Instance._tweener.Show();
-    }
+        public static void Show(string content, string header = "")
+        {
+            if (Input.GetMouseButton(0))
+                return;
 
-    public static void Hide()
-    {
-        Instance._tweener.Hide();
+            Instance._tooltip.SetText(content, header);
+            Instance._tweener.Show();
+        }
+
+        public static void Hide()
+        {
+            Instance._tweener.Hide();
+        }
     }
 }

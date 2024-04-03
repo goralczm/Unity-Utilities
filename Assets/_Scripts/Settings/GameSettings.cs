@@ -1,5 +1,8 @@
-[System.Serializable]
-public static class GameSettings
+namespace Utilities.Settings
 {
-    public static bool CAMERA_SHAKE;
+    [System.Serializable]
+    public static class GameSettings
+    {
+        public static bool CAMERA_SHAKE;
+    }
 }

@@ -1,109 +1,113 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 using Utilities.SaveSystem;
+using Utilities.Settings.Input.Basic;
+using Utilities.Settings.UI;
 
-public class Settings : MonoBehaviour
+namespace Utilities.Settings
 {
-    [Header("Settings")]
-    [SerializeField] private UnityEvent _onSetupDone;
-
-    [Header("Instances")]
-    [SerializeField] private Transform _settingInputsParent;
-    [SerializeField] private ConfirmationPopup _confirmation;
-    [SerializeField] private SettingsTooltip _tooltip;
-
-    private Dictionary<string, SettingsInput> _settings = new Dictionary<string, SettingsInput>();
-
-    private void Start()
+    public class Settings : MonoBehaviour
     {
-        AddSettingsInput();
-        ResetToDefaults();
-        LoadSettings();
+        [Header("Settings")]
+        [SerializeField] private UnityEvent _onSetupDone;
 
-        _onSetupDone?.Invoke();
-    }
+        [Header("Instances")]
+        [SerializeField] private Transform _settingInputsParent;
+        [SerializeField] private ConfirmationPopup _confirmation;
+        [SerializeField] private SettingsTooltip _tooltip;
 
-    private void AddSettingsInput()
-    {
-        _settings.Clear();
+        private Dictionary<string, SettingsInput> _settings = new Dictionary<string, SettingsInput>();
 
-        SettingsInput[] foundInputs = GetComponentsInChildren<SettingsInput>();
-        for (int i = 0; i < foundInputs.Length; i++)
+        private void Start()
         {
-            SettingsInput input = foundInputs[i];
+            AddSettingsInput();
+            ResetToDefaults();
+            LoadSettings();
 
-            if (_settings.ContainsKey(input.name))
-                throw new System.Exception($"Duplicate settings name found! {input.name}");
-
-            input.SetSettings(this);
-            input.Setup();
-            _settings.Add(input.SettingName, input);
+            _onSetupDone?.Invoke();
         }
-    }
 
-    public void ResetToDefaults()
-    {
-        foreach (var input in _settings)
+        private void AddSettingsInput()
         {
-            input.Value.ResetToDefault();
-            ConfirmSetting();
+            _settings.Clear();
+
+            SettingsInput[] foundInputs = GetComponentsInChildren<SettingsInput>();
+            for (int i = 0; i < foundInputs.Length; i++)
+            {
+                SettingsInput input = foundInputs[i];
+
+                if (_settings.ContainsKey(input.name))
+                    throw new System.Exception($"Duplicate settings name found! {input.name}");
+
+                input.SetSettings(this);
+                input.Setup();
+                _settings.Add(input.SettingName, input);
+            }
         }
-    }
 
-    public void LoadSettings()
-    {
-        SaveableData data = SaveSystem.LoadData("Settings") as SaveableData;
-        if (data == null)
-            return;
-
-        ResetToDefaults();
-
-        foreach (var savedObj in data.savedDatas)
+        public void ResetToDefaults()
         {
-            SettingsInput setting = GetSettingsInput(savedObj.Key);
-            if (setting == null)
-                continue;
-
-            setting.Load(savedObj.Value);
-            ConfirmSetting();
+            foreach (var input in _settings)
+            {
+                input.Value.ResetToDefault();
+                ConfirmSetting();
+            }
         }
-    }
+
+        public void LoadSettings()
+        {
+            SaveableData data = SaveSystem.SaveSystem.LoadData("Settings") as SaveableData;
+            if (data == null)
+                return;
+
+            ResetToDefaults();
+
+            foreach (var savedObj in data.savedDatas)
+            {
+                SettingsInput setting = GetSettingsInput(savedObj.Key);
+                if (setting == null)
+                    continue;
+
+                setting.Load(savedObj.Value);
+                ConfirmSetting();
+            }
+        }
 
 
-    public void SaveSettings()
-    {
-        SaveableData settings = new SaveableData();
-        foreach (var input in _settings)
-            settings.SaveData(input.Key, input.Value.Save());
+        public void SaveSettings()
+        {
+            SaveableData settings = new SaveableData();
+            foreach (KeyValuePair<string, SettingsInput> input in _settings)
+                settings.SaveObject(input.Key, input.Value.Save());
 
-        SaveSystem.SaveData(settings, "Settings");
-    }
+            SaveSystem.SaveSystem.SaveData(settings, "Settings");
+        }
 
 
-    private SettingsInput GetSettingsInput(string name)
-    {
-        if (!_settings.ContainsKey(name))
-            return null;
+        private SettingsInput GetSettingsInput(string name)
+        {
+            if (!_settings.ContainsKey(name))
+                return null;
 
-        return _settings[name];
-    }
+            return _settings[name];
+        }
 
-    public void ShowConfirmation(SettingsInput input)
-    {
-        _confirmation.Show(input);
-    }
+        public void ShowConfirmation(SettingsInput input)
+        {
+            _confirmation.Show(input);
+        }
 
-    public void ConfirmSetting()
-    {
-        _confirmation.ForceConfirm();
-    }
+        public void ConfirmSetting()
+        {
+            _confirmation.ForceConfirm();
+        }
 
-    public void ShowTooltip(SettingsInput input)
-    {
-        _tooltip.SetCover(input.GetTooltipCoverSprite());
-        _tooltip.SetSettingName(input.name);
-        _tooltip.SetDescription(input.GetTooltipDescription());
+        public void ShowTooltip(SettingsInput input)
+        {
+            _tooltip.SetCover(input.GetTooltipCoverSprite());
+            _tooltip.SetSettingName(input.name);
+            _tooltip.SetDescription(input.GetTooltipDescription());
+        }
     }
 }

@@ -45,10 +45,5 @@ namespace Utilities.SaveSystem
 
             return savedDatas[key];
         }
-
-        public void SaveData(string key, object v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
