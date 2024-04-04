@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Utilities.Utilities.Input;
 
@@ -10,7 +11,7 @@ namespace Utilities.BuildingSystem.Input
     public class BuildingSystemInput : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private BuildingInput[] _buildingInputs;
+        [SerializeField] private List<BuildingInput> _buildingInputs = new List<BuildingInput>();
 
         private BuildingSystem _buildingSystem;
 
@@ -23,12 +24,6 @@ namespace Utilities.BuildingSystem.Input
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Escape) || UnityEngine.Input.GetMouseButtonDown(1))
                 _buildingSystem.CancelBuilding();
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Q))
-                _buildingSystem.RotateLeft();
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.R))
-                _buildingSystem.RotateRight();
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Delete))
             {

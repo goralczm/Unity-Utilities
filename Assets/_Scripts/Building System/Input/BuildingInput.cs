@@ -8,7 +8,7 @@ namespace Utilities.BuildingSystem.Input
     [System.Serializable]
     public struct BuildingInput
     {
-        public GameObject building;
+        public BuildingSO building;
         public KeyCode key;
     }
 }

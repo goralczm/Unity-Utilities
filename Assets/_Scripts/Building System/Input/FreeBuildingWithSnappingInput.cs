@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Utilities.BuildingSystem.Input
 {
     /// <summary>
-    /// Switches <see cref="BuildingSystem.useGrid"/> state based on player input.
+    /// Switches <see cref="BuildingSystem._useGrid"/> state based on player input.
     /// </summary>
     [RequireComponent(typeof(BuildingSystem))]
     public class FreeBuildingWithSnappingInput : MonoBehaviour
@@ -26,7 +26,7 @@ namespace Utilities.BuildingSystem.Input
             if (_invert)
                 useGrid = !useGrid;
 
-            _buildingSystem.useGrid = useGrid;
+            _buildingSystem.SetUseGrid(useGrid);
         }
     }
 }

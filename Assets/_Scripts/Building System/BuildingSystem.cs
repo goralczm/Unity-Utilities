@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities.Utilities;
 using Utilities.Utilities.Input;
 
 namespace Utilities.BuildingSystem
@@ -9,25 +10,49 @@ namespace Utilities.BuildingSystem
     public class BuildingSystem : MonoBehaviour
     {
         [Header("Settings")]
-        public bool useGrid;
+        [SerializeField] private bool _useGrid;
         [SerializeField] private bool _centerOnGrid;
+
+        [Header("Accessibility")]
+        [SerializeField] private bool _chainBuilding;
 
         [Header("Instances")]
         [SerializeField] private Grid _grid;
-        [SerializeField] private BuildingGhost _ghostPrefab;
+        [SerializeField] private GameObject _ghostPrefab;
 
-        private BuildingGhost _currentBuilding;
+        private IBuildingPreview _currentGhost;
+
+        public void SetUseGrid(bool useGrid) => _useGrid = useGrid;
+
+        private void Awake()
+        {
+            _currentGhost = _ghostPrefab.GetComponent<IBuildingPreview>();
+        }
 
         private void Update()
         {
-            if (_currentBuilding == null)
+            if (!_ghostPrefab.activeSelf)
                 return;
 
             Vector2 cellPos = GetCellPos();
-            _currentBuilding.ChangePositionConsideringCollision(cellPos);
+            _currentGhost.SetPosition(cellPos);
 
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-                _currentBuilding.Build();
+            if (UnityEngine.Input.GetMouseButtonDown(1))
+                CancelBuilding();
+
+            if (Helpers.IsMouseOverUI())
+                return;
+
+            if (_chainBuilding)
+            {
+                if (UnityEngine.Input.GetMouseButton(0))
+                    _currentGhost.Build();
+            }
+            else
+            {
+                if (UnityEngine.Input.GetMouseButtonDown(0))
+                    _currentGhost.Build();
+            }
         }
 
         /// <summary>
@@ -37,7 +62,7 @@ namespace Utilities.BuildingSystem
         private Vector2 GetCellPos()
         {
             Vector3 mouseWorldPos = MouseInput.MouseWorldPos;
-            if (!useGrid)
+            if (!_useGrid)
                 return mouseWorldPos;
 
             Vector3Int cellPos = _grid.WorldToCell(mouseWorldPos);
@@ -51,13 +76,13 @@ namespace Utilities.BuildingSystem
         /// <summary>
         /// Begins the building process of given prefab.
         /// </summary>
-        /// <param name="prefab">The prefab to be built.</param>
-        public void StartBuilding(IBuildable prefab)
+        /// <param name="building">The prefab to be built.</param>
+        public void StartBuilding(IBuildable building)
         {
             CancelBuilding();
 
-            _currentBuilding = Instantiate(_ghostPrefab, Vector2.zero, Quaternion.identity);
-            _currentBuilding.Setup(prefab);
+            _currentGhost.Show();
+            _currentGhost.Setup(building);
         }
 
         /// <summary>
@@ -65,26 +90,10 @@ namespace Utilities.BuildingSystem
         /// </summary>
         public void CancelBuilding()
         {
-            if (_currentBuilding == null)
+            if (_currentGhost == null)
                 return;
 
-            Destroy(_currentBuilding.gameObject);
-        }
-
-        /// <summary>
-        /// Rotates the current building -90 degrees.
-        /// </summary>
-        public void RotateRight()
-        {
-            _currentBuilding?.RotateLeft();
-        }
-
-        /// <summary>
-        /// Rotates the current building 90 degrees.
-        /// </summary>
-        public void RotateLeft()
-        {
-            _currentBuilding?.RotateRight();
+            _currentGhost.Hide();
         }
     }
 }
