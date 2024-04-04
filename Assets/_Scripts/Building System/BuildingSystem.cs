@@ -52,7 +52,7 @@ namespace Utilities.BuildingSystem
         /// Begins the building process of given prefab.
         /// </summary>
         /// <param name="prefab">The prefab to be built.</param>
-        public void StartBuilding(GameObject prefab)
+        public void StartBuilding(IBuildable prefab)
         {
             CancelBuilding();
 

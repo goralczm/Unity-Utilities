@@ -21,7 +21,8 @@ namespace Utilities.CameraMovement
 
         private void Awake()
         {
-            _boundry = _boundryTransform.GetComponent<IShape>();
+            if (_boundryTransform != null)
+                _boundry = _boundryTransform.GetComponent<IShape>();
         }
 
         private void Update()

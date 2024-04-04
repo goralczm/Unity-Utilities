@@ -7,11 +7,16 @@ namespace Utilities.Utilities
     /// </summary>
     public class RandomColor : MonoBehaviour
     {
+        [SerializeField] private bool _setRandomOnStart;
+
         private SpriteRenderer _rend;
 
         private void Start()
         {
             _rend = GetComponent<SpriteRenderer>();
+
+            if (_setRandomOnStart)
+                SetRandomColor();
         }
 
         /// <summary>

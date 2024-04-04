@@ -491,8 +491,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ba7515be9e3704cbf684c38a44ac0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _strength: 10
+  _smootheness: 0.1
   _minZoom: 2
   _maxZoom: 10
+  _reverseScroll: 0
 --- !u!114 &467723026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a177b0b4b8a17b41ad9d9cc7934e41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dragMouseButton: 0
+  _dragMouseButton: 1
+  _boundryTransform: {fileID: 0}
 --- !u!1 &588284743
 GameObject:
   m_ObjectHideFlags: 0

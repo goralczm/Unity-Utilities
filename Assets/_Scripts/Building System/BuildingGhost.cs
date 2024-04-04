@@ -13,7 +13,7 @@ namespace Utilities.BuildingSystem
         [Header("Instances")]
         [SerializeField] private SpriteRenderer _rend;
 
-        private GameObject _buildingPrefab;
+        private IBuildable _buildingPrefab;
         private Collider2D _collider;
         private Vector2 _lastPos;
         private bool _canBuild;
@@ -22,11 +22,11 @@ namespace Utilities.BuildingSystem
         /// Prepares the phantom building with a sprite, correct collider and scale.
         /// </summary>
         /// <param name="buildingPrefab"></param>
-        public void Setup(GameObject buildingPrefab)
+        public void Setup(IBuildable buildingPrefab)
         {
             _buildingPrefab = buildingPrefab;
-            transform.localScale = buildingPrefab.transform.localScale;
-            _rend.sprite = _buildingPrefab.GetComponent<SpriteRenderer>().sprite;
+            transform.localScale = buildingPrefab.GetScale();
+            _rend.sprite = _buildingPrefab.GetSprite();
             _collider = gameObject.AddComponent<PolygonCollider2D>();
         }
 
@@ -108,8 +108,9 @@ namespace Utilities.BuildingSystem
             if (!_canBuild)
                 return;
 
-            GameObject o = Instantiate(_buildingPrefab, transform.position, transform.rotation);
-            o.name = _buildingPrefab.name;
+            _buildingPrefab.Build();
+            /*GameObject o = Instantiate(_buildingPrefab, transform.position, transform.rotation);
+            o.name = _buildingPrefab.name;*/
             Destroy(gameObject);
         }
     }

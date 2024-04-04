@@ -13,8 +13,16 @@ namespace Utilities.CameraMovement
         [SerializeField, Range(0f, 1f)] private float _smootheness = 2f;
         [SerializeField] private float _minZoom = 2f, _maxZoom = 10f;
 
+        [Header("Accessibility")]
+        [SerializeField] private bool _reverseScroll;
+
         private Camera _cam;
         private float _targetCamSize;
+
+        public void SetReverseScroll(bool state)
+        {
+            _reverseScroll = state;
+        }
 
         private void Awake()
         {
@@ -24,7 +32,7 @@ namespace Utilities.CameraMovement
 
         private void Update()
         {
-            _targetCamSize = _targetCamSize - MouseInput.ScrollWheel * _strength;
+            _targetCamSize = _targetCamSize - MouseInput.ScrollWheel * _strength * (_reverseScroll ? -1f : 1f);
             _targetCamSize = Mathf.Clamp(_targetCamSize, _minZoom, _maxZoom);
 
             if (_smootheness == 0)

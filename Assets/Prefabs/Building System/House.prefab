@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d49c11c1225264c88b7f7124a3109d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _setRandomOnStart: 1
 --- !u!114 &4723502844411361114
 MonoBehaviour:
   m_ObjectHideFlags: 0
