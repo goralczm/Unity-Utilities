@@ -20,3 +20,5 @@ Unity Utilities is a collection of systems, that I have been developing for quit
 
 # TODO
 - [ ] Controller Inputs (New Input System)
+- [ ] Update Building System documentation
+- [ ] Improve Map Editor structure and documentation
