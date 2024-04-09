@@ -11,8 +11,8 @@ namespace Utilities.CameraMovement
         [Header("Settings")]
         [Tooltip("0 - Left Mouse Button\n1 - Right Mouse Button\n2 - Middle Mouse Button")]
         [SerializeField] private int _dragMouseButton = 0;
-        [SerializeField, Range(.1f, 2f)] private float _smoothness = 2f;
-        [SerializeField, Range(1f, 4f)] private float _dragForce = 2f;
+        [SerializeField, Range(.1f, 2f)] private float _smoothness = .15f;
+        [SerializeField, Range(.25f, 4f)] private float _dragForce = 2f;
 
         [Header("Optional")]
         [SerializeField] private GameObject _boundryTransform;
@@ -22,6 +22,8 @@ namespace Utilities.CameraMovement
         private Vector3 _startCameraDragPos;
 
         private Vector3 _targetPos;
+
+        public void SetDragForce(float dragForce) => _dragForce = dragForce;
 
         private void Awake()
         {

@@ -9,8 +9,8 @@ namespace Utilities.CameraMovement
     public class CameraScroll : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField, Range(1f, 10f)] private float _strength;
-        [SerializeField, Range(0f, 1f)] private float _smootheness = 2f;
+        [SerializeField, Range(1f, 10f)] private float _strength = 10f;
+        [SerializeField, Range(0f, 1f)] private float _smootheness = .1f;
         [SerializeField] private float _minZoom = 2f, _maxZoom = 10f;
 
         [Header("Accessibility")]
@@ -18,6 +18,10 @@ namespace Utilities.CameraMovement
 
         private Camera _cam;
         private float _targetCamSize;
+
+        public float GetMinZoom() => _minZoom;
+
+        public float GetMaxZoom() => _maxZoom;
 
         public void SetReverseScroll(bool state)
         {

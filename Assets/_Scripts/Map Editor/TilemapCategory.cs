@@ -5,7 +5,7 @@ namespace Utilities.MapEditor
     [System.Serializable]
     public struct TilemapCategory
     {
-        public TileCategory category;
+        public TilemapLayer category;
         public Tilemap tilemap;
     }
 }

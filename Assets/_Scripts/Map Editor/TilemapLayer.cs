@@ -1,6 +1,6 @@
 namespace Utilities.MapEditor
 {
-    public enum TileCategory
+    public enum TilemapLayer
     {
         Ground,
         Flora,

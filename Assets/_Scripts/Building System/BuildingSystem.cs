@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utilities.Utilities;
 using Utilities.Utilities.Input;
@@ -22,6 +23,8 @@ namespace Utilities.BuildingSystem
 
         private IBuildingPreview _currentGhost;
 
+        public Action<bool> BuildingStateChanged;
+
         public void SetUseGrid(bool useGrid) => _useGrid = useGrid;
 
         private void Awake()
@@ -34,7 +37,7 @@ namespace Utilities.BuildingSystem
             if (!_ghostPrefab.activeSelf)
                 return;
 
-            Vector2 cellPos = GetCellPos();
+            Vector2 cellPos = GetCellPosUnderMouse();
             _currentGhost.SetPosition(cellPos);
 
             if (UnityEngine.Input.GetMouseButtonDown(1))
@@ -46,12 +49,12 @@ namespace Utilities.BuildingSystem
             if (_chainBuilding)
             {
                 if (UnityEngine.Input.GetMouseButton(0))
-                    _currentGhost.Build();
+                    FinishBuilding();
             }
             else
             {
                 if (UnityEngine.Input.GetMouseButtonDown(0))
-                    _currentGhost.Build();
+                    FinishBuilding();
             }
         }
 
@@ -59,7 +62,7 @@ namespace Utilities.BuildingSystem
         /// Calculates the grid cell position from the current mouse position.
         /// </summary>
         /// <returns>The cell position as <see cref="Vector2"/>.</returns>
-        private Vector2 GetCellPos()
+        public Vector2 GetCellPosUnderMouse()
         {
             Vector3 mouseWorldPos = MouseInput.MouseWorldPos;
             if (!_useGrid)
@@ -83,6 +86,15 @@ namespace Utilities.BuildingSystem
 
             _currentGhost.Show();
             _currentGhost.Setup(building);
+
+            BuildingStateChanged?.Invoke(true);
+        }
+
+        public void FinishBuilding()
+        {
+            _currentGhost.Build();
+
+            BuildingStateChanged?.Invoke(false);
         }
 
         /// <summary>
@@ -94,6 +106,7 @@ namespace Utilities.BuildingSystem
                 return;
 
             _currentGhost.Hide();
+            BuildingStateChanged?.Invoke(false);
         }
     }
 }
