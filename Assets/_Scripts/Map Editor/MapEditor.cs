@@ -1,28 +1,55 @@
+using Codice.Client.BaseCommands;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
 using Utilities.MapEditor.Tiles;
+using Utilities.Utilities;
 using Utilities.Utilities.Core;
 using Utilities.Utilities.Input;
 
 namespace Utilities.MapEditor
 {
+    public enum ToolType
+    {
+        Single_Brush,
+        Box_Brush,
+        Selection,
+    }
+
     public class MapEditor : Singleton<MapEditor>
     {
         [Header("Settings")]
         [SerializeField] private TilemapLayer _currentEraserTilemap;
+        [SerializeField] private ToolType _currentTool;
 
         [Header("Instances")]
         [SerializeField] private TilemapCategory[] _tilemaps;
         [SerializeField] private BuildingSystem.BuildingSystem _buildingSystem;
-        [SerializeField] private GameObject _cellPreview;
+        [SerializeField] private Tilemap _previewTilemap;
         [SerializeField] private GameObject _gridPreview;
+
+        private TileBrush _brush;
+        private RectangleSelection _selection;
+        private bool _isPreview;
 
         private Dictionary<TilemapLayer, Tilemap> _cachedTilemap = new Dictionary<TilemapLayer, Tilemap>();
 
-        public BuildingSystem.BuildingSystem GetBuildingSystem() => _buildingSystem;
+        public BuildingSystem.BuildingSystem GetBuildingSystem()
+        {
+            return _buildingSystem;
+        }
 
-        public void SetEraserTilemap(TilemapLayer tilemapCategory) => _currentEraserTilemap = tilemapCategory;
+        public void SetCurrentTool(int toolIndex)
+        {
+            CancelPreview();
+            _currentTool = (ToolType)toolIndex;
+        }
+
+        public void SetEraserTilemap(TilemapLayer tilemapCategory)
+        {
+            _currentEraserTilemap = tilemapCategory;
+        }
 
         protected override void Awake()
         {
@@ -30,20 +57,141 @@ namespace Utilities.MapEditor
 
             foreach (TilemapCategory tilemap in _tilemaps)
                 _cachedTilemap.Add(tilemap.category, tilemap.tilemap);
-
-            _buildingSystem.BuildingStateChanged += BuildingStateChanged;
         }
 
-        private void BuildingStateChanged(bool isBuilding)
+        private void Update()
         {
-            _cellPreview.transform.position = MouseInput.MouseWorldPos;
-            _cellPreview.SetActive(!isBuilding);
+            switch (_currentTool)
+            {
+                case ToolType.Single_Brush:
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        CancelPreview();
+                        _brush = null;
+                    }
+
+                    if (_brush != null)
+                    {
+                        BeginPreview(_brush);
+                        PlaceTile(_brush, MouseInput.MouseWorldPos);
+
+                        if (Input.GetMouseButton(0) && !Helpers.IsMouseOverUI())
+                            ApplyPreview(_brush);
+                    }
+
+                    break;
+                case ToolType.Box_Brush:
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        CancelPreview();
+
+                        if (_selection == null)
+                            _brush = null;
+                        else
+                        {
+                            _selection.Dispose();
+                            _selection = null;
+                        }
+                    }
+
+                    if (_brush != null)
+                    {
+                        if (Input.GetMouseButtonDown(0) && !Helpers.IsMouseOverUI())
+                        {
+                            _selection = new RectangleSelection();
+                            _selection.BeginSelection();
+                        }
+
+                        if (_selection != null)
+                        {
+                            if (Input.GetMouseButton(0))
+                            {
+                                _selection.OnMouseHold();
+                                BeginPreview(_brush);
+                                PlaceTileInBounds(_brush, _selection.GetRect().GetBounds());
+                            }
+
+                            if (Input.GetMouseButtonUp(0))
+                            {
+                                ApplyPreview(_brush);
+                                _selection.Dispose();
+                                _selection = null;
+                            }
+                        }
+                        else
+                        {
+                            BeginPreview(_brush);
+                            PlaceTile(_brush, MouseInput.MouseWorldPos);
+                        }
+                    }
+
+                    break;
+            }
+        }
+
+        public void BeginPaint(TileBrush brush)
+        {
+            _brush = brush;
+        }
+
+        public void BeginPreview(TileBrush tile)
+        {
+            _isPreview = true;
+            _previewTilemap.ClearAllTiles();
+
+            TileBase[] tiles = _cachedTilemap[tile.category].GetTilesBlock(_cachedTilemap[tile.category].cellBounds);
+            _previewTilemap.SetTilesBlock(_cachedTilemap[tile.category].cellBounds, tiles);
+            _previewTilemap.GetComponent<TilemapRenderer>().sortingOrder = _cachedTilemap[tile.category].GetComponent<TilemapRenderer>().sortingOrder;
+            _cachedTilemap[tile.category].gameObject.SetActive(false);
+        }
+
+        public void CancelPreview()
+        {
+            _previewTilemap.ClearAllTiles();
+            foreach (var tilemap in _cachedTilemap.Values)
+                tilemap.gameObject.SetActive(true);
+
+            _isPreview = false;
+        }
+
+        public void ApplyPreview(TileBrush tile)
+        {
+            if (!_isPreview)
+                return;
+
+            _cachedTilemap[tile.category].ClearAllTiles();
+            TileBase[] tiles = _previewTilemap.GetTilesBlock(_previewTilemap.cellBounds);
+            _cachedTilemap[tile.category].SetTilesBlock(_previewTilemap.cellBounds, tiles);
+            _cachedTilemap[tile.category].gameObject.SetActive(true);
+
+            _previewTilemap.ClearAllTiles();
+
+            _isPreview = false;
+        }
+
+        public void PlaceTileInBounds(TileBrush tile, Bounds bounds)
+        {
+            Vector3Int leftBottomCorner = _previewTilemap.WorldToCell(bounds.center - bounds.size / 2f);
+            Vector3Int rightTopCorner = _previewTilemap.WorldToCell(bounds.center + bounds.size / 2f);
+
+            var xDir = leftBottomCorner.x < rightTopCorner.x ? 1 : -1;
+            var yDir = leftBottomCorner.y < rightTopCorner.y ? 1 : -1;
+            int xCols = 1 + Mathf.Abs(leftBottomCorner.x - rightTopCorner.x);
+            int yCols = 1 + Mathf.Abs(leftBottomCorner.y - rightTopCorner.y);
+            for (var x = 0; x < xCols; x++)
+            {
+                for (var y = 0; y < yCols; y++)
+                {
+                    var tilePos = leftBottomCorner + new Vector3Int(x * xDir, y * yDir, 0);
+                    _previewTilemap.SetTile(tilePos, tile.tileBase);
+                }
+            }
         }
 
         public void PlaceTile(TileBrush tile, Vector2 position)
         {
-            Vector3Int pos = _cachedTilemap[tile.category].WorldToCell(position);
-            _cachedTilemap[tile.category].SetTile(pos, tile.tileBase);
+            Vector3Int pos = _previewTilemap.WorldToCell(position);
+            _previewTilemap.SetTile(pos, tile.tileBase);
         }
 
         public void EraseTile(Vector2 position)

@@ -16,7 +16,7 @@ namespace Utilities.MapEditor.UI
             GetComponent<Image>().sprite = _tile.sprite;
 
             _button.onClick.AddListener(delegate {
-                MapEditor.Instance.GetBuildingSystem().StartBuilding(_tile);
+                MapEditor.Instance.BeginPaint(_tile);
             });
         }
     }

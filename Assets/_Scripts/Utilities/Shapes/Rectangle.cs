@@ -9,6 +9,24 @@ namespace Utilities.Utilities.Shapes
     {
         [SerializeField] private float _width, _height;
 
+        public void SetWidth(float width) => _width = width;
+
+        public void SetHeight(float height) => _height = height;
+
+        public bool IsInside(Vector2 position)
+        {
+            return GetBounds().Contains(position);
+        }
+
+        public Bounds GetBounds()
+        {
+            Bounds bounds = new Bounds();
+            bounds.size = new Vector2(_width, _height);
+            bounds.center = transform.position;
+
+            return bounds;
+        }    
+
         /// <summary>
         /// Generates random point inside a rectangle.
         /// </summary>
