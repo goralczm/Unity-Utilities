@@ -6,18 +6,27 @@ namespace Utilities.MapEditor.UI
 {
     public class TileButton : MonoBehaviour
     {
-        [SerializeField] private TileBrush _tile;
+        [Header("Instances")]
+        [SerializeField] private Button _button;
+        [SerializeField] private Image _icon;
 
-        private Button _button;
-
-        private void Start()
+        private TileBrush _brush;
+        
+        public void Setup(TileBrush tile)
         {
-            _button = GetComponent<Button>();
-            GetComponent<Image>().sprite = _tile.sprite;
+            _brush = tile;
 
+            _icon.sprite = tile.sprite;
+
+            _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(delegate {
-                MapEditor.Instance.BeginPaint(_tile);
+                MapEditor.Instance.BeginPaint(tile);
             });
+        }
+
+        public TileBrush GetBrush()
+        {
+            return _brush;
         }
     }
 }

@@ -70,9 +70,9 @@ namespace Utilities.Utilities.UI
                     break;
             }
 
-            _isReversed = false;
             if (startReversed)
                 _isReversed = true;
+
             _hasSetup = true;
         }
 

@@ -1,8 +1,7 @@
-using Codice.Client.BaseCommands;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.WSA;
 using Utilities.MapEditor.Tiles;
 using Utilities.Utilities;
 using Utilities.Utilities.Core;
@@ -20,7 +19,6 @@ namespace Utilities.MapEditor
     public class MapEditor : Singleton<MapEditor>
     {
         [Header("Settings")]
-        [SerializeField] private TilemapLayer _currentEraserTilemap;
         [SerializeField] private ToolType _currentTool;
 
         [Header("Instances")]
@@ -35,6 +33,8 @@ namespace Utilities.MapEditor
 
         private Dictionary<TilemapLayer, Tilemap> _cachedTilemap = new Dictionary<TilemapLayer, Tilemap>();
 
+        public Action<ToolType> OnToolChanged;
+
         public BuildingSystem.BuildingSystem GetBuildingSystem()
         {
             return _buildingSystem;
@@ -44,11 +44,8 @@ namespace Utilities.MapEditor
         {
             CancelPreview();
             _currentTool = (ToolType)toolIndex;
-        }
 
-        public void SetEraserTilemap(TilemapLayer tilemapCategory)
-        {
-            _currentEraserTilemap = tilemapCategory;
+            OnToolChanged?.Invoke(_currentTool);
         }
 
         protected override void Awake()
@@ -68,6 +65,7 @@ namespace Utilities.MapEditor
                     {
                         CancelPreview();
                         _brush = null;
+                        SetCurrentTool((int)ToolType.Selection);
                     }
 
                     if (_brush != null)
@@ -86,7 +84,10 @@ namespace Utilities.MapEditor
                         CancelPreview();
 
                         if (_selection == null)
+                        {
                             _brush = null;
+                            SetCurrentTool((int)ToolType.Selection);
+                        }
                         else
                         {
                             _selection.Dispose();
@@ -132,12 +133,16 @@ namespace Utilities.MapEditor
         public void BeginPaint(TileBrush brush)
         {
             _brush = brush;
+            if (_currentTool == ToolType.Selection)
+                SetCurrentTool((int)ToolType.Single_Brush);
         }
 
         public void BeginPreview(TileBrush tile)
         {
             _isPreview = true;
             _previewTilemap.ClearAllTiles();
+            foreach (var tilemap in _cachedTilemap.Values)
+                tilemap.gameObject.SetActive(true);
 
             TileBase[] tiles = _cachedTilemap[tile.category].GetTilesBlock(_cachedTilemap[tile.category].cellBounds);
             _previewTilemap.SetTilesBlock(_cachedTilemap[tile.category].cellBounds, tiles);
@@ -196,8 +201,8 @@ namespace Utilities.MapEditor
 
         public void EraseTile(Vector2 position)
         {
-            Vector3Int pos = _cachedTilemap[_currentEraserTilemap].WorldToCell(position);
-            _cachedTilemap[_currentEraserTilemap].SetTile(pos, null);
+            Vector3Int pos = _previewTilemap.WorldToCell(position);
+            _previewTilemap.SetTile(pos, null);
         }
 
         public void ToggleGridPreview()
