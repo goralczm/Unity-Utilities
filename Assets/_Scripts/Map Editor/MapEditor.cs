@@ -22,7 +22,7 @@ namespace Utilities.MapEditor
         [SerializeField] private ToolType _currentTool;
 
         [Header("Instances")]
-        [SerializeField] private TilemapCategory[] _tilemaps;
+        [SerializeField] private List<TilemapCategory> _tilemaps;
         [SerializeField] private BuildingSystem.BuildingSystem _buildingSystem;
         [SerializeField] private Tilemap _previewTilemap;
         [SerializeField] private GameObject _gridPreview;
@@ -208,6 +208,11 @@ namespace Utilities.MapEditor
         public void ToggleGridPreview()
         {
             _gridPreview.SetActive(!_gridPreview.activeSelf);
+        }
+
+        public void AddTilemap(Tilemap tilemap, TilemapLayer layer)
+        {
+            _tilemaps.Add(new TilemapCategory { tilemap = tilemap, category = layer });
         }
     }
 }

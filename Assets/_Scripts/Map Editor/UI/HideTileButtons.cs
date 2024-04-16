@@ -5,7 +5,7 @@ namespace Utilities.MapEditor
 {
     public class HideTileButtons : MonoBehaviour
     {
-        [SerializeField] private UITweener[] _tileButtonsPanels;
+        [SerializeField] private UITweenerGroup _tweens;
         [SerializeField] private MapEditor _editor;
 
         private void OnEnable()
@@ -23,13 +23,7 @@ namespace Utilities.MapEditor
             if (toolType != ToolType.Selection)
                 return;
 
-            HideAllPanels();
-        }
-
-        public void HideAllPanels()
-        {
-            for (int i = 0; i < _tileButtonsPanels.Length; i++)
-                _tileButtonsPanels[i].Hide();
+            _tweens.HideAll();
         }
     }
 }

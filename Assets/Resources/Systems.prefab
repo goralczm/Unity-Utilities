@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5dbbc118638834fa701b9b7cfb8915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keybinding: 284
 --- !u!1 &5175713955186306313
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +152,15 @@ MonoBehaviour:
       loop: 1
       source: {fileID: 0}
     mixerGroup: {fileID: -1520496772227684609, guid: 7ca3d5a2fc1d33c4d8a03d8fdace8f35, type: 2}
+  - name: SFX
+    sounds:
+    - name: blip
+      clip: {fileID: 8300000, guid: 34f5fd6ab753c5f409faa7ca7656069e, type: 3}
+      volume: 0.2
+      pitch: 1
+      loop: 0
+      source: {fileID: 0}
+    mixerGroup: {fileID: 4712259332094498434, guid: 7ca3d5a2fc1d33c4d8a03d8fdace8f35, type: 2}
 --- !u!1 &7589235476504794448
 GameObject:
   m_ObjectHideFlags: 0

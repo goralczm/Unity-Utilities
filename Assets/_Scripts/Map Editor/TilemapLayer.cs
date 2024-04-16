@@ -5,5 +5,6 @@ namespace Utilities.MapEditor
         Water,
         Ground,
         Flora,
+        Water_Addons,
     }
 }
