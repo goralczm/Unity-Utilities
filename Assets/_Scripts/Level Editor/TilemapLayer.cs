@@ -1,4 +1,4 @@
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public enum TilemapLayer
     {

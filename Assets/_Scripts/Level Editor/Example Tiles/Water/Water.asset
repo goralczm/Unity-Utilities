@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0416e9bb7b6dd34a87053fc0859a494, type: 3}
-  m_Name: Eraser Grass
+  m_Script: {fileID: 11500000, guid: 503a7e44521cc924596f372ca89f4a4c, type: 3}
+  m_Name: Water
   m_EditorClassIdentifier: 
-  category: 1
-  tileBase: {fileID: 0}
-  sprite: {fileID: 21300000, guid: ed9df3e30d79f2343b39c31ed0af54e4, type: 3}
+  category: 3
+  tileBase: {fileID: 11400000, guid: 55d613156e0fa6d4e94ca09d477a2512, type: 2}
+  sprite: {fileID: -1802450226, guid: 16e283d9401097d429c6470d9b3073b6, type: 3}

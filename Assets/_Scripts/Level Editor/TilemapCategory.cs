@@ -1,6 +1,6 @@
 using UnityEngine.Tilemaps;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     [System.Serializable]
     public struct TilemapCategory

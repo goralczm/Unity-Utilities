@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Utilities.MapEditor.UI;
+using Utilities.LevelEditor.UI;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public class TileBrushesPanel : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace Utilities.MapEditor
         {
             Initialize();
 
-            MapEditor.Instance.BeginPaint(_brushes[0].GetBrush());
+            LevelEditor.Instance.BeginPaint(_brushes[0].GetBrush());
         }
     }
 }

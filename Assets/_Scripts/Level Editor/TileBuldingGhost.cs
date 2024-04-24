@@ -1,7 +1,7 @@
 using UnityEngine;
 using Utilities.BuildingSystem;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public class TileBuldingGhost : MonoBehaviour, IBuildingPreview
     {

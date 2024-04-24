@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public class GridCellPreview : MonoBehaviour
     {

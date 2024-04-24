@@ -2,12 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Utilities.MapEditor.Tiles;
+using UnityEngine.UIElements;
+using UnityEngine.WSA;
+using Utilities.CommandPattern;
+using Utilities.LevelEditor.Commands;
+using Utilities.LevelEditor.Tiles;
 using Utilities.Utilities;
 using Utilities.Utilities.Core;
 using Utilities.Utilities.Input;
+using Utilities.Utilities.Shapes;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public enum ToolType
     {
@@ -16,7 +21,7 @@ namespace Utilities.MapEditor
         Selection,
     }
 
-    public class MapEditor : Singleton<MapEditor>
+    public class LevelEditor : Singleton<LevelEditor>
     {
         [Header("Settings")]
         [SerializeField] private ToolType _currentTool;
@@ -26,6 +31,7 @@ namespace Utilities.MapEditor
         [SerializeField] private BuildingSystem.BuildingSystem _buildingSystem;
         [SerializeField] private Tilemap _previewTilemap;
         [SerializeField] private GameObject _gridPreview;
+        [SerializeField] private CommandProcessor _commandProcessor;
 
         private TileBrush _brush;
         private RectangleSelection _selection;
@@ -76,7 +82,6 @@ namespace Utilities.MapEditor
                         if (Input.GetMouseButton(0) && !Helpers.IsMouseOverUI())
                             ApplyPreview(_brush);
                     }
-
                     break;
                 case ToolType.Box_Brush:
                     if (Input.GetMouseButtonDown(1))
@@ -125,9 +130,14 @@ namespace Utilities.MapEditor
                             PlaceTile(_brush, MouseInput.MouseWorldPos);
                         }
                     }
-
                     break;
             }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+                _commandProcessor.UndoLastCommand();
+
+            if (Input.GetKeyDown(KeyCode.Y))
+                _commandProcessor.RedoLastUndo();
         }
 
         public void BeginPaint(TileBrush brush)
@@ -164,14 +174,32 @@ namespace Utilities.MapEditor
             if (!_isPreview)
                 return;
 
-            _cachedTilemap[tile.category].ClearAllTiles();
-            TileBase[] tiles = _previewTilemap.GetTilesBlock(_previewTilemap.cellBounds);
-            _cachedTilemap[tile.category].SetTilesBlock(_previewTilemap.cellBounds, tiles);
-            _cachedTilemap[tile.category].gameObject.SetActive(true);
+            if (AreTilemapsEqual(_cachedTilemap[tile.category], _previewTilemap))
+                return;
 
-            _previewTilemap.ClearAllTiles();
+            PlaceTileCommand command = new PlaceTileCommand(_cachedTilemap[tile.category], _previewTilemap);
+            _commandProcessor.EnqueueCommand(command);
 
             _isPreview = false;
+        }
+
+        private bool AreTilemapsEqual(Tilemap firstTilemap, Tilemap secondTilemap)
+        {
+            TileBase[] oldTiles = firstTilemap.GetTilesBlock(firstTilemap.cellBounds);
+            TileBase[] newTiles = secondTilemap.GetTilesBlock(secondTilemap.cellBounds);
+
+            if (oldTiles.Length == newTiles.Length)
+            {
+                for (int i = 0; i < oldTiles.Length; i++)
+                {
+                    if (oldTiles[i] != newTiles[i])
+                        return false;
+                }
+            }
+            else
+                return false;
+
+            return true;
         }
 
         public void PlaceTileInBounds(TileBrush tile, Bounds bounds)

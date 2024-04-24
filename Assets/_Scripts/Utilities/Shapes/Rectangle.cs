@@ -9,6 +9,10 @@ namespace Utilities.Utilities.Shapes
     {
         [SerializeField] private float _width, _height;
 
+        public float GetWidth() => _width;
+
+        public float GetHeight() => _height;
+
         public void SetWidth(float width) => _width = width;
 
         public void SetHeight(float height) => _height = height;

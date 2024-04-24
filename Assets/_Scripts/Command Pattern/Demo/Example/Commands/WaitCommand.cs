@@ -1,29 +1,32 @@
 using UnityEngine;
 
-public class WaitCommand : Command
+namespace Utilities.CommandPattern.Demo
 {
-    private readonly float _waitTime;
-    private float _startTime;
-
-    public override bool IsFinished => Time.time - _startTime >= _waitTime;
-
-    public WaitCommand(float waitTime)
+    public class WaitCommand : Command
     {
-        _waitTime = waitTime;
-    }
+        private readonly float _waitTime;
+        private float _startTime;
 
-    public override void Execute()
-    {
-        _startTime = Time.time;
-    }
+        public override bool IsFinished => Time.time - _startTime >= _waitTime;
 
-    public override void Tick()
-    {
+        public WaitCommand(float waitTime)
+        {
+            _waitTime = waitTime;
+        }
 
-    }
+        public override void Execute()
+        {
+            _startTime = Time.time;
+        }
 
-    public override void Undo()
-    {
-        _startTime = Time.time;
+        public override void Tick()
+        {
+
+        }
+
+        public override void Undo()
+        {
+            _startTime = Time.time;
+        }
     }
 }

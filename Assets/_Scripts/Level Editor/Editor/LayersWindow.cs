@@ -2,11 +2,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Utilities.MapEditor.Editor
+namespace Utilities.LevelEditor.Editor
 {
     public class LayersWindow : EditorWindow
     {
-        private MapEditor _levelEditor;
+        private LevelEditor _levelEditor;
         private Transform _gridParent;
         private TilemapLayer _layer;
 
@@ -18,7 +18,7 @@ namespace Utilities.MapEditor.Editor
 
         private void OnGUI()
         {
-            _levelEditor = EditorGUILayout.ObjectField(_levelEditor, typeof(MapEditor), true) as MapEditor;
+            _levelEditor = EditorGUILayout.ObjectField(_levelEditor, typeof(LevelEditor), true) as LevelEditor;
             _gridParent = EditorGUILayout.ObjectField(_gridParent, typeof(Transform), true) as Transform;
             _layer = (TilemapLayer)EditorGUILayout.EnumPopup(_layer);
 

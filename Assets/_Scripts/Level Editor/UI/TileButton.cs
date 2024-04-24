@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Utilities.MapEditor.Tiles;
+using Utilities.LevelEditor.Tiles;
 
-namespace Utilities.MapEditor.UI
+namespace Utilities.LevelEditor.UI
 {
     public class TileButton : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Utilities.MapEditor.UI
 
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(delegate {
-                MapEditor.Instance.BeginPaint(tile);
+                LevelEditor.Instance.BeginPaint(tile);
             });
         }
 

@@ -1,8 +1,8 @@
 using UnityEngine;
-using Utilities.MapEditor.Tiles;
-using Utilities.MapEditor.UI;
+using Utilities.LevelEditor.Tiles;
+using Utilities.LevelEditor.UI;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public class SetupTileButtons : MonoBehaviour
     {

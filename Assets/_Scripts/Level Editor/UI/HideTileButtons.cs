@@ -1,12 +1,12 @@
 using UnityEngine;
 using Utilities.Utilities.UI;
 
-namespace Utilities.MapEditor
+namespace Utilities.LevelEditor
 {
     public class HideTileButtons : MonoBehaviour
     {
         [SerializeField] private UITweenerGroup _tweens;
-        [SerializeField] private MapEditor _editor;
+        [SerializeField] private LevelEditor _editor;
 
         private void OnEnable()
         {

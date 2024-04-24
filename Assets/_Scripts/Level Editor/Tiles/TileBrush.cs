@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
 using Utilities.BuildingSystem;
 
-namespace Utilities.MapEditor.Tiles
+namespace Utilities.LevelEditor.Tiles
 {
     [CreateAssetMenu(menuName = "Map Editor/New Tile", fileName = "New Tile")]
     public class TileBrush : BuildingSO
@@ -25,7 +25,7 @@ namespace Utilities.MapEditor.Tiles
 
         public override void Build(Vector2 position, Quaternion rotation)
         {
-            MapEditor.Instance.PlaceTile(this, position);
+            LevelEditor.Instance.PlaceTile(this, position);
         }
     }
 }

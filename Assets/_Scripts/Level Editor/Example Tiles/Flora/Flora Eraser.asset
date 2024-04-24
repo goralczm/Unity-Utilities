@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 503a7e44521cc924596f372ca89f4a4c, type: 3}
-  m_Name: Water
+  m_Name: Flora Eraser
   m_EditorClassIdentifier: 
-  category: 0
-  tileBase: {fileID: 11400000, guid: 55d613156e0fa6d4e94ca09d477a2512, type: 2}
-  sprite: {fileID: -1802450226, guid: 16e283d9401097d429c6470d9b3073b6, type: 3}
+  category: 2
+  tileBase: {fileID: 0}
+  sprite: {fileID: -1444436388, guid: b35b7bef2f35dca49aed598dc07fb055, type: 3}
