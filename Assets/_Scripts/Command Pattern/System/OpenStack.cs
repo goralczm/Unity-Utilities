@@ -4,13 +4,13 @@ namespace Utilities.CommandPattern
 {
     public class OpenStack<T>
     {
-        private List<T> _items = new List<T>();
+        private LinkedList<T> _items = new LinkedList<T>();
 
         public int Count => _items.Count;
 
         public void Push(T item)
         {
-            _items.Add(item);
+            _items.AddLast(item);
         }
 
         public T Pop()
@@ -18,8 +18,8 @@ namespace Utilities.CommandPattern
             if (_items.Count == 0)
                 return default(T);
 
-            T it = _items[_items.Count - 1];
-            _items.RemoveAt(_items.Count - 1);
+            T it = _items.Last.Value;
+            _items.RemoveLast();
 
             return it;
         }
@@ -29,8 +29,8 @@ namespace Utilities.CommandPattern
             if (_items.Count == 0)
                 return default(T);
 
-            T it = _items[0];
-            _items.RemoveAt(0);
+            T it = _items.First.Value;
+            _items.RemoveFirst();
 
             return it;
         }
