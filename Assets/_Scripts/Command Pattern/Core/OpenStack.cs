@@ -8,12 +8,12 @@ namespace Utilities.CommandPattern
 
         public int Count => _items.Count;
 
-        public void Push(T item)
+        public void PushOnTop(T item)
         {
             _items.AddLast(item);
         }
 
-        public T Pop()
+        public T PopFirst()
         {
             if (_items.Count == 0)
                 return default(T);

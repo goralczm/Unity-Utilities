@@ -22,3 +22,4 @@ Unity Utilities is a collection of systems, that I have been developing for quit
 - [ ] Controller Inputs (New Input System)
 - [ ] Update Building System documentation
 - [ ] Improve Map Editor structure and documentation
+- [ ] Improve Audio Manager with object pooling and pitch manipulation

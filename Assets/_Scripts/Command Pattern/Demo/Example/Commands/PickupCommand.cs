@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Utilities.CommandPattern.Demo
 {
-    public class PickupCommand : Command
+    public class PickupCommand : ICommand
     {
-        public override bool IsFinished => true;
+        public bool IsFinished => true;
 
         private readonly Inventory _inventory;
         private readonly ItemPickup _itemPickup;
@@ -17,18 +17,18 @@ namespace Utilities.CommandPattern.Demo
             _itemPickup = itemPickup;
         }
 
-        public override void Execute()
+        public void Execute()
         {
             _item = _itemPickup.GetItem();
             _itemPickup.Interact(_inventory.gameObject);
         }
 
-        public override void Tick()
+        public void Tick()
         {
 
         }
 
-        public override void Undo()
+        public void Undo()
         {
             _inventory.RemoveItem(_item, 1);
             _item.OnDrop(_inventory.transform.position);

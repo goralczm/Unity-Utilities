@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Utilities.CommandPattern.Demo
 {
-    public class MoveCommand : Command
+    public class MoveCommand : ICommand
     {
-        public override bool IsFinished => (Vector2)_target.position == _destination ||
+        public bool IsFinished => (Vector2)_target.position == _destination ||
                                            (Vector2)_target.position == _origin;
 
         private readonly Vector2 _origin;
@@ -23,18 +23,18 @@ namespace Utilities.CommandPattern.Demo
         }
 
 
-        public override void Execute()
+        public void Execute()
         {
             _isRewinding = false;
         }
 
-        public override void Tick()
+        public void Tick()
         {
             Vector2 moveTarget = !_isRewinding ? _destination : _origin;
             _target.transform.position = Vector2.MoveTowards(_target.transform.position, moveTarget, Time.deltaTime * _speed);
         }
 
-        public override void Undo()
+        public void Undo()
         {
             _isRewinding = true;
         }

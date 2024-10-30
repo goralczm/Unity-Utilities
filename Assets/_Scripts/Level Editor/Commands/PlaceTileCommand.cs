@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.WSA;
 
 namespace Utilities.LevelEditor.Commands
 {
-    public class PlaceTileCommand : CommandPattern.Command
+    public class PlaceTileCommand : CommandPattern.ICommand
     {
         private readonly Tilemap _originalTilemap;
         private readonly Tilemap _previewTilemap;
@@ -27,9 +26,9 @@ namespace Utilities.LevelEditor.Commands
             _newTiles = _previewTilemap.GetTilesBlock(_newBounds);
         }
 
-        public override bool IsFinished => true;
+        public bool IsFinished => true;
 
-        public override void Execute()
+        public void Execute()
         {
             _originalTilemap.ClearAllTiles();
             _originalTilemap.SetTilesBlock(_newBounds, _newTiles);
@@ -37,12 +36,12 @@ namespace Utilities.LevelEditor.Commands
             _previewTilemap.ClearAllTiles();
         }
 
-        public override void Tick()
+        public void Tick()
         {
 
         }
 
-        public override void Undo()
+        public void Undo()
         {
             _originalTilemap.ClearAllTiles();
             _originalTilemap.SetTilesBlock(_originalBounds, _originalTiles);

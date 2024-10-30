@@ -1,25 +1,25 @@
 namespace Utilities.CommandPattern
 {
-    public abstract class Command
+    public interface ICommand
     {
         /// <summary>
         /// Executed once a command is initiated.
         /// </summary>
-        public abstract void Execute();
+        public void Execute();
 
         /// <summary>
         /// Executed every frame until the command is finished.
         /// </summary>
-        public abstract void Tick();
+        public void Tick();
 
         /// <summary>
         /// Undos the command procedure.
         /// </summary>
-        public abstract void Undo();
+        public void Undo();
 
         /// <summary>
         /// Has the command been executed and finished?
         /// </summary>
-        public abstract bool IsFinished { get; }
+        public bool IsFinished { get; }
     }
 }

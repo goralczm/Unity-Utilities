@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Utilities.CommandPattern.Demo
 {
-    public class ChangeColorCommand : Command
+    public class ChangeColorCommand : ICommand
     {
-        public override bool IsFinished => true;
+        public bool IsFinished => true;
 
         private Color _startColor;
         private Color _newColor;
@@ -17,17 +17,17 @@ namespace Utilities.CommandPattern.Demo
             _rend = rend;
         }
 
-        public override void Execute()
+        public void Execute()
         {
             _rend.color = _newColor;
         }
 
-        public override void Tick()
+        public void Tick()
         {
 
         }
 
-        public override void Undo()
+        public void Undo()
         {
             _rend.color = _startColor;
         }

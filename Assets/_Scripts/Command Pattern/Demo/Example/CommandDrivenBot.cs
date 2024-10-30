@@ -6,7 +6,7 @@ namespace Utilities.CommandPattern.Demo
     public class CommandDrivenBot : CommandProcessor
     {
         [Header("Settings")]
-        [SerializeField] private float _searchRange;
+        [SerializeField] private float _searchRange = 2f;
 
         [Header("Instances")]
         [SerializeField] private Inventory _botInventory;
@@ -21,11 +21,18 @@ namespace Utilities.CommandPattern.Demo
             _rend = GetComponent<SpriteRenderer>();
         }
 
-        protected override void ListenForCommands()
+        public override void Update()
+        {
+            base.Update();
+
+            ListenForCommands();
+        }
+
+        private void ListenForCommands()
         {
             if (Input.GetMouseButtonDown(1))
             {
-                _currentCommand = null;
+                CancelCurrentCommand();
                 return;
             }
 
@@ -35,21 +42,27 @@ namespace Utilities.CommandPattern.Demo
                 EnqueueWait(1f);
             }
 
-            if (_commands.Count > 0)
+            if (HasQueuedCommands())
                 return;
 
-            if (!IsCurrentCommandFinished)
+            SearchState();
+        }
+
+        private void SearchState()
+        {
+            if (!IsCurrentCommandFinished())
                 return;
 
             ItemPickup nearestItem = FindNearestItem();
             if (nearestItem != null)
             {
                 EnqueuePickupSequence(nearestItem);
-                return;
             }
-
-            EnqueueRandomDestination();
-            EnqueueWait(1f);
+            else
+            {
+                EnqueueRandomDestination();
+                EnqueueWait(1f);
+            }
         }
 
         private void EnqueueMoveToMouse()
@@ -131,12 +144,6 @@ namespace Utilities.CommandPattern.Demo
         {
             Vector2 randomDestination = _rectangle.GetRandomPositionInside();
             EnqueueMove(randomDestination);
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _searchRange);
         }
     }
 }
