@@ -18,8 +18,8 @@ public class DirectionArrow : MonoBehaviour
     private void Update()
     {
         Vector2 resoultion = GetResolution();
-        Vector2 topRightCorner = GetLeftBottomCorner(resoultion);
-        Vector2 bottomLeftCorner = GetRightBottomCorner();
+        Vector2 topRightCorner = GetTopRightCorner(resoultion);
+        Vector2 bottomLeftCorner = GetBottomLeftCorner();
 
         Vector2 targetPositon = (Vector2)_target.position + _targetOffset;
 
@@ -28,12 +28,12 @@ public class DirectionArrow : MonoBehaviour
         RotateTowardsTarget(_target.position);
     }
 
-    private Vector2 GetLeftBottomCorner(Vector2 resolution)
+    private Vector2 GetTopRightCorner(Vector2 resolution)
     {
         return _cam.ScreenToWorldPoint(resolution - _padding);
     }
 
-    private Vector2 GetRightBottomCorner()
+    private Vector2 GetBottomLeftCorner()
     {
         return _cam.ScreenToWorldPoint(_padding);
     }
