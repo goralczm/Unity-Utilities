@@ -29,7 +29,7 @@ namespace Utilities.PlayerMovement
 
         private void FixedUpdate()
         {
-            _rb.velocity = new Vector2(_horizontalAxis, _verticalAxis) * _speed;
+            _rb.linearVelocity = new Vector2(_horizontalAxis, _verticalAxis) * _speed;
         }
     }
 }

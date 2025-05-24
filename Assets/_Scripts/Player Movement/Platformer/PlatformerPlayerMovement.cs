@@ -163,7 +163,7 @@ namespace Utilities.PlayerMovement.Platformer
         /// <param name="y">The vertical velocity.</param>
         private void SetVelocity(float x, float y)
         {
-            _rb.velocity = new Vector2(x, y);
+            _rb.linearVelocity = new Vector2(x, y);
         }
 
         /// <summary>
@@ -180,11 +180,11 @@ namespace Utilities.PlayerMovement.Platformer
         /// </summary>
         private void ClampVelocity()
         {
-            float clampedY = _rb.velocity.y;
-            if (_rb.velocity.y < 0)
+            float clampedY = _rb.linearVelocity.y;
+            if (_rb.linearVelocity.y < 0)
                 clampedY = Mathf.Clamp(clampedY, -_maxFallSpeed, 0);
 
-            SetVelocity(_rb.velocity.x, clampedY);
+            SetVelocity(_rb.linearVelocity.x, clampedY);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Utilities.PlayerMovement.Platformer
         private void Walk()
         {
             SetGravity(_defaultGravity);
-            SetVelocity(PlayerInput.HorizontalAxis * _speed, _rb.velocity.y);
+            SetVelocity(PlayerInput.HorizontalAxis * _speed, _rb.linearVelocity.y);
             ClampVelocity();
         }
 
@@ -202,7 +202,7 @@ namespace Utilities.PlayerMovement.Platformer
         /// </summary>
         private void Jump()
         {
-            SetVelocity(_rb.velocity.x, _rb.velocity.y / 10f);
+            SetVelocity(_rb.linearVelocity.x, _rb.linearVelocity.y / 10f);
             SetGravity(0);
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             _jumpsLeft--;

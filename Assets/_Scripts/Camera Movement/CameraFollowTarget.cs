@@ -80,12 +80,12 @@ namespace Utilities.CameraMovement
             if (_targetRb == null)
                 return Vector2.zero;
 
-            Vector2 velocityOffset = new Vector2(0, _targetRb.velocity.y);
+            Vector2 velocityOffset = new Vector2(0, _targetRb.linearVelocity.y);
 
-            if (_targetRb.velocity.y < 0)
+            if (_targetRb.linearVelocity.y < 0)
                 velocityOffset *= _fallingVelocityHeadsupStrength;
 
-            if (_targetRb.velocity.y > 0)
+            if (_targetRb.linearVelocity.y > 0)
                 velocityOffset *= _risingVelocityHeadsupStrength;
 
             return velocityOffset;
