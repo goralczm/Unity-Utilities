@@ -1,0 +1,14 @@
+{
+    "name": "ProceduralMusic.Extensions", 
+    "rootNamespace": "ProceduralMusic.Extensions",
+    "references": ["ProceduralMusic.Core"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

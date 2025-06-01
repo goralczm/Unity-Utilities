@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ebb6c4eae11b744c827f92c0386efe8, type: 3}
+  m_Name: MusicConfig
+  m_EditorClassIdentifier: 
+  tempo: 120
+  rootNote: 60
+  scale: 0
+  timeSignatureNumerator: 4
+  timeSignatureDenominator: 4
+  measuresPerSection: 8
+  numberOfSections: 4
+  chordProgression: I-V-vi-IV
+  instruments:
+  - name: Lead
+    type: 0
+    volume: 0.8
+    octaveRange: 2
+    noteDensity: 0.6
+    enabled: 1
+  - name: Bass
+    type: 1
+    volume: 0.7
+    octaveRange: 2
+    noteDensity: 0.3
+    enabled: 1
+  - name: Chords
+    type: 2
+    volume: 0.5
+    octaveRange: 2
+    noteDensity: 0.2
+    enabled: 1
+  randomSeed: 12345
+  complexity: 0.5
+  allowSyncopation: 1
+  dynamicRange: 0.3
+  sampleRate: 44100
+  masterVolume: 0.7
